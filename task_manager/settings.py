@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url 
+import dj_database_url
+from dotenv import load_dotenv
+
+# Load environment variables from .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)6_yen3@j=+04@tb!p7)i*#x^9f!x3gbz+e!lv!*ve%^8#k!ms'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,7 +82,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://postgres:postgres@localhost:5432/task_manager',
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600
     )
 }
