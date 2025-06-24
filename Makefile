@@ -1,8 +1,6 @@
 install:
 	uv sync
 
-PORT ?= 8000
-
 build:
 	chmod +x ./build.sh
 	./build.sh
@@ -12,3 +10,9 @@ render-start:
 
 lint:
 	uv run ruff check
+
+update_lang:
+	uv run django-admin makemessages --all
+
+compile_lang:
+	uv run django-admin compilemessages
