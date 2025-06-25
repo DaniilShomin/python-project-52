@@ -33,7 +33,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['python-project-52-zib0.onrender.com', 'localhost', '127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'task_manager',
+    'task_manager.user',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +93,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'user.Users'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

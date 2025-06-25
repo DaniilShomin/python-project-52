@@ -16,13 +16,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="">{% translate 'Users' %}</a>
+                <a class="nav-link" href="{% url 'users' %}">{% translate 'Users' %}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="">{% translate 'Login' %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">{% translate 'Registration' %}</a>
+                <a class="nav-link" href="{% url 'create_user' %}">{% translate 'Registration' %}</a>
               </li>
             </ul>
           </div>

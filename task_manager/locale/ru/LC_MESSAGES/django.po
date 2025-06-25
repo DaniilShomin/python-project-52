@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 22:57+0300\n"
+"POT-Creation-Date: 2025-06-25 21:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,18 +19,43 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
-#: task_manager/templates/base.html:6 task_manager/templates/base.html:14
+
+#: task_manager/templates/base.html:7 task_manager/templates/base.html:15
 msgid "Task manager"
 msgstr "Менеджер задач"
 
-#: task_manager/templates/base.html:18
+#: task_manager/templates/base.html:19 task_manager/templates/user/index.html:6
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/base.html:21
+#: task_manager/templates/base.html:22
 msgid "Login"
 msgstr "Вход"
 
-#: task_manager/templates/base.html:24
+#: task_manager/templates/base.html:25
 msgid "Registration"
 msgstr "Регистрация"
+
+#: task_manager/templates/index.html:8
+msgid "Greetings from Hexlet!"
+msgstr "Привет от Хекслета!"
+
+#: task_manager/templates/index.html:9
+msgid "Practical programming courses"
+msgstr "Практические курсы по программированию"
+
+#: task_manager/templates/index.html:12
+msgid "Learn more"
+msgstr "Узнать больше"
+
+#: task_manager/templates/user/index.html:11
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: task_manager/templates/user/index.html:12
+msgid "Full name"
+msgstr "Полное имя"
+
+#: task_manager/templates/user/index.html:13
+msgid "Create date"
+msgstr "Дата создания"

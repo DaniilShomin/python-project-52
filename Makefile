@@ -12,7 +12,7 @@ lint:
 	uv run ruff check
 
 update_lang:
-	uv run django-admin makemessages --all
+	uv run django-admin makemessages -l ru
 
 compile_lang:
 	uv run django-admin compilemessages
