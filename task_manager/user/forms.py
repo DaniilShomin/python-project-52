@@ -4,13 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from task_manager.user.models import Users
 
 class CreateUserForm(forms.ModelForm):
-    password = forms.CharField(
-        label=_("Password"), 
-        widget=forms.PasswordInput,
-    )
     confirm_password = forms.CharField(
         label=_("Confirm Password"), 
         widget=forms.PasswordInput,
+        help_text=_('To confirm, please enter your password again.')
     )
 
     class Meta:
@@ -24,6 +21,13 @@ class CreateUserForm(forms.ModelForm):
         ]
         help_texts = {
             'username': _("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."),
-            'password': _("<ul><li>Your password must be at least 3 characters long.</ul></li>"),
-            'confirm_password': _('To confirm, please enter your password again.'),
+            'password': _("<ul><li>Your password must be at least 3 characters long.</ul></li>")
+        }
+        labels = {
+            'first_name': _('First Name'),
+            'last_name': _('Last Name'),
+            'username': _('Username'),
+        }
+        widgets = {
+            'password': forms.PasswordInput(),
         }
