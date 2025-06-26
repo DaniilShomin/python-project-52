@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-25 21:55+0300\n"
+"POT-Creation-Date: 2025-06-26 23:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,8 @@ msgid "Login"
 msgstr "Вход"
 
 #: task_manager/templates/base.html:25
+#: task_manager/templates/user/create.html:8
+#: task_manager/templates/user/create.html:12
 msgid "Registration"
 msgstr "Регистрация"
 
@@ -48,7 +50,7 @@ msgstr "Практические курсы по программировани�
 msgid "Learn more"
 msgstr "Узнать больше"
 
-#: task_manager/templates/user/index.html:11
+#: task_manager/templates/user/index.html:11 task_manager/user/forms.py:18
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -59,3 +61,41 @@ msgstr "Полное имя"
 #: task_manager/templates/user/index.html:13
 msgid "Create date"
 msgstr "Дата создания"
+
+#: task_manager/templates/user/index.html:25
+msgid "Edit"
+msgstr "Изменить"
+
+#: task_manager/templates/user/index.html:26
+msgid "Delete"
+msgstr "Удалить"
+
+#: task_manager/user/forms.py:10
+msgid "First Name"
+msgstr "Имя"
+
+#: task_manager/user/forms.py:14
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: task_manager/user/forms.py:20
+msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr ""
+"Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./"
+"+/-/_."
+
+#: task_manager/user/forms.py:23
+msgid "Password"
+msgstr "Пароль"
+
+#: task_manager/user/forms.py:25
+msgid "<ul><li>Your password must be at least 3 characters long.</ul></li>"
+msgstr "<ul><li>Ваш пароль должен содержать как минимум 3 символа.</ul></li>"
+
+#: task_manager/user/forms.py:29
+msgid "Confirm Password"
+msgstr "Подтверждение пароля"
+
+#: task_manager/user/forms.py:31
+msgid "To confirm, please enter your password again."
+msgstr "Для подтверждения введите, пожалуйста, пароль ещё раз."

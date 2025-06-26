@@ -1,22 +1,30 @@
 from django.shortcuts import render
 from django.views import View
 
-from task_manager.user.models import (Users)
+from .models import (Users)
+from .forms import (CreateUserForm)
 
 # Create your views here.
 class IndexView(View):
     def get(self,request):
-        return render(request,'user/index.html')
+        users = Users.objects.all()
+        return render(
+            request,
+            'user/index.html',
+            context={
+                'users': users
+            },
+        )
     
 
 class CreateUserView(View):
     def get(self,request):
-        users = Users.objects.all()
+        form = CreateUserForm()
         return render(
             request,
-            'user/create_user.html',
+            'user/create.html',
             context={
-                'users': users
+                'form': form
             },
         )
 
