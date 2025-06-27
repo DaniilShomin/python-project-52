@@ -29,4 +29,20 @@ class CreateUserView(View):
         )
 
     def post(self,request):
-        ...
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                'user/index.html',
+                context={
+                    'users': Users.objects.all()
+                }
+            )
+        return render(
+            request,
+            'user/create.html',
+            context={
+                'form': form
+            }
+        )

@@ -31,3 +31,23 @@ class CreateUserForm(forms.ModelForm):
         widgets = {
             'password': forms.PasswordInput(),
         }
+
+    def clean(self):
+        if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
+            raise forms.ValidationError(_("The passwords entered do not match."))
+        elif len(self.cleaned_data['password']) < 3:
+            raise forms.ValidationError(_("The password you entered is too short. It must contain at least 3 characters."))
+        else:
+            return self.cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data['username']    
+        if len(username) > 150:
+            raise forms.ValidationError(
+                _("Username is too long (maximum 150 characters).")
+            )        
+        if not all(c.isalnum() or c in '@.+-_' for c in username):
+            raise forms.ValidationError(
+                _("Please enter a valid username. It can only contain letters, numbers and @/./+/-/_ signs.")
+            )        
+        return username
