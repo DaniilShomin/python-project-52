@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-26 23:57+0300\n"
+"POT-Creation-Date: 2025-06-27 22:54+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,15 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: task_manager/forms.py:9 task_manager/templates/user/index.html:11
+#: task_manager/user/forms.py:29
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: task_manager/forms.py:15
+msgid "Password"
+msgstr "Пароль"
+
 #: task_manager/templates/base.html:7 task_manager/templates/base.html:15
 msgid "Task manager"
 msgstr "Менеджер задач"
@@ -28,7 +37,7 @@ msgstr "Менеджер задач"
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/base.html:22
+#: task_manager/templates/base.html:22 task_manager/templates/login.html:8
 msgid "Login"
 msgstr "Вход"
 
@@ -50,9 +59,9 @@ msgstr "Практические курсы по программировани�
 msgid "Learn more"
 msgstr "Узнать больше"
 
-#: task_manager/templates/user/index.html:11 task_manager/user/forms.py:29
-msgid "Username"
-msgstr "Имя пользователя"
+#: task_manager/templates/login.html:12
+msgid "Log in"
+msgstr "Войти"
 
 #: task_manager/templates/user/index.html:12
 msgid "Full name"
@@ -96,5 +105,33 @@ msgstr "Имя"
 msgid "Last Name"
 msgstr "Фамилия"
 
-#~ msgid "Password"
-#~ msgstr "Пароль"
+#: task_manager/user/forms.py:37
+msgid "The passwords entered do not match."
+msgstr "Введенные пароли не совпадают."
+
+#: task_manager/user/forms.py:39
+msgid ""
+"The password you entered is too short. It must contain at least 3 characters."
+msgstr "Введенный вами пароль слишком короткий. Он должен содержать не менее 3 символов."
+
+#: task_manager/user/forms.py:46
+msgid "Username is too long (maximum 150 characters)."
+msgstr "Имя пользователя слишком длинное (максимум 150 символов)."
+
+#: task_manager/user/forms.py:50
+msgid ""
+"Please enter a valid username. It can only contain letters, numbers and @/./"
+"+/-/_ signs."
+msgstr "Введите допустимое имя пользователя. Оно может содержать только буквы, цифры и знаки @/./"
+"+/-/_."
+
+#: task_manager/user/forms.py:54
+msgid "A user with this name already exists."
+msgstr "Пользователь с таким именем уже существует."
+
+#: task_manager/views.py:41
+msgid ""
+"Please enter a correct username and password. Note that both fields may be "
+"case-sensitive."
+msgstr "Пожалуйста, введите правильное имя пользователя и пароль. "
+"Оба поля могут быть чувствительны к регистру."

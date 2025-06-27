@@ -35,10 +35,9 @@ class CreateUserForm(forms.ModelForm):
     def clean(self):
         if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
             raise forms.ValidationError(_("The passwords entered do not match."))
-        elif len(self.cleaned_data['password']) < 3:
+        if len(self.cleaned_data['password']) < 3:
             raise forms.ValidationError(_("The password you entered is too short. It must contain at least 3 characters."))
-        else:
-            return self.cleaned_data
+        return self.cleaned_data
 
     def clean_username(self):
         username = self.cleaned_data['username']    
@@ -49,5 +48,9 @@ class CreateUserForm(forms.ModelForm):
         if not all(c.isalnum() or c in '@.+-_' for c in username):
             raise forms.ValidationError(
                 _("Please enter a valid username. It can only contain letters, numbers and @/./+/-/_ signs.")
-            )        
+            )
+        if Users.objects.filter(username=username).exists():
+            raise forms.ValidationError(
+                _("A user with this name already exists.")
+            )
         return username

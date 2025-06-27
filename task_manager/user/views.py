@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
 
-from .models import (Users)
-from .forms import (CreateUserForm)
+from .models import Users
+from .forms import CreateUserForm
 
 # Create your views here.
 class IndexView(View):
@@ -31,14 +31,10 @@ class CreateUserView(View):
     def post(self,request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render(
-                request,
-                'user/index.html',
-                context={
-                    'users': Users.objects.all()
-                }
-            )
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('index')
         return render(
             request,
             'user/create.html',
