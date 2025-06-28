@@ -22,7 +22,7 @@
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                 <td>{{ user.created_at }}</td>
                 <td>
-                    <a href="">{% translate "Edit" %}</a><br>
+                    <a href="{% url 'update_user' user.id %}">{% translate "Edit" %}</a><br>
                     <a href="">{% translate "Delete" %}</a>
                 </td>
             </tr>

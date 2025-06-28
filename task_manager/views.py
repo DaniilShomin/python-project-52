@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import messages
 
 from task_manager.forms import LoginForm
-from task_manager.user.models import Users
 
 
 class IndexView(View):
@@ -36,7 +35,7 @@ class LoginView(View):
             
             if user is not None:
                 login(request, user)
-                messages.success(request, _('Вы залогинены'))
+                messages.success(request, _('You are login'))
                 return redirect('index')
             else:
                 form.add_error(None, _(
@@ -54,5 +53,5 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        messages.info(request, _('Вы разлогинены'))
+        messages.info(request, _('You are logout'))
         return redirect('index')

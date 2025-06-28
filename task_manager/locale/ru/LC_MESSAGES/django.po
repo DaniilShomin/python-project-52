@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-27 22:54+0300\n"
+"POT-Creation-Date: 2025-06-29 00:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: task_manager/forms.py:9 task_manager/templates/user/index.html:11
-#: task_manager/user/forms.py:29
+#: task_manager/user/forms.py:30
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -29,19 +29,23 @@ msgstr "Имя пользователя"
 msgid "Password"
 msgstr "Пароль"
 
-#: task_manager/templates/base.html:7 task_manager/templates/base.html:15
+#: task_manager/templates/base.html:7 task_manager/templates/base.html:17
 msgid "Task manager"
 msgstr "Менеджер задач"
 
-#: task_manager/templates/base.html:19 task_manager/templates/user/index.html:6
+#: task_manager/templates/base.html:21 task_manager/templates/user/index.html:6
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/base.html:22 task_manager/templates/login.html:8
+#: task_manager/templates/base.html:25
+msgid "Logout"
+msgstr "Выход"
+
+#: task_manager/templates/base.html:29 task_manager/templates/login.html:8
 msgid "Login"
 msgstr "Вход"
 
-#: task_manager/templates/base.html:25
+#: task_manager/templates/base.html:32
 #: task_manager/templates/user/create.html:8
 #: task_manager/templates/user/create.html:12
 msgid "Registration"
@@ -79,59 +83,91 @@ msgstr "Изменить"
 msgid "Delete"
 msgstr "Удалить"
 
-#: task_manager/user/forms.py:8
+#: task_manager/templates/user/update.html:8
+msgid "Change user"
+msgstr "Изменение пользователя"
+
+#: task_manager/templates/user/update.html:12
+msgid "Change"
+msgstr "Изменить"
+
+#: task_manager/user/forms.py:9
 msgid "Confirm Password"
 msgstr "Подтверждение пароля"
 
-#: task_manager/user/forms.py:10
+#: task_manager/user/forms.py:11
 msgid "To confirm, please enter your password again."
 msgstr "Для подтверждения введите, пожалуйста, пароль ещё раз."
 
-#: task_manager/user/forms.py:23
+#: task_manager/user/forms.py:24
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
 "Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./"
 "+/-/_."
 
-#: task_manager/user/forms.py:24
+#: task_manager/user/forms.py:25
 msgid "<ul><li>Your password must be at least 3 characters long.</ul></li>"
 msgstr "<ul><li>Ваш пароль должен содержать как минимум 3 символа.</ul></li>"
 
-#: task_manager/user/forms.py:27
+#: task_manager/user/forms.py:28
 msgid "First Name"
 msgstr "Имя"
 
-#: task_manager/user/forms.py:28
+#: task_manager/user/forms.py:29
 msgid "Last Name"
 msgstr "Фамилия"
 
-#: task_manager/user/forms.py:37
+#: task_manager/user/forms.py:38
 msgid "The passwords entered do not match."
 msgstr "Введенные пароли не совпадают."
 
-#: task_manager/user/forms.py:39
+#: task_manager/user/forms.py:40
 msgid ""
 "The password you entered is too short. It must contain at least 3 characters."
-msgstr "Введенный вами пароль слишком короткий. Он должен содержать не менее 3 символов."
+msgstr ""
+"Введенный вами пароль слишком короткий. Он должен содержать не менее 3 "
+"символов."
 
-#: task_manager/user/forms.py:46
+#: task_manager/user/forms.py:48
 msgid "Username is too long (maximum 150 characters)."
 msgstr "Имя пользователя слишком длинное (максимум 150 символов)."
 
-#: task_manager/user/forms.py:50
+#: task_manager/user/forms.py:52
 msgid ""
 "Please enter a valid username. It can only contain letters, numbers and @/./"
 "+/-/_ signs."
-msgstr "Введите допустимое имя пользователя. Оно может содержать только буквы, цифры и знаки @/./"
-"+/-/_."
+msgstr ""
+"Введите допустимое имя пользователя. Оно может содержать только буквы, цифры "
+"и знаки @/./+/-/_."
 
-#: task_manager/user/forms.py:54
+#: task_manager/user/forms.py:58
 msgid "A user with this name already exists."
 msgstr "Пользователь с таким именем уже существует."
 
-#: task_manager/views.py:41
+#: task_manager/user/views.py:54
+msgid "You are not logged in! Please sign in."
+msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
+
+#: task_manager/user/views.py:61
+msgid "You do not have permission to change another user."
+msgstr "У вас нет прав для изменения другого пользователя."
+
+#: task_manager/user/views.py:81
+msgid "User successfully changed."
+msgstr "Пользователь успешно изменен"
+
+#: task_manager/views.py:38
+msgid "You are login"
+msgstr "Вы залогинены"
+
+#: task_manager/views.py:42
 msgid ""
 "Please enter a correct username and password. Note that both fields may be "
 "case-sensitive."
-msgstr "Пожалуйста, введите правильное имя пользователя и пароль. "
-"Оба поля могут быть чувствительны к регистру."
+msgstr ""
+"Пожалуйста, введите правильное имя пользователя и пароль. Оба поля могут "
+"быть чувствительны к регистру."
+
+#: task_manager/views.py:56
+msgid "You are logout"
+msgstr "Вы разлогинены"

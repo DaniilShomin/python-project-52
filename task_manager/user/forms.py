@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
 
 from task_manager.user.models import Users
 
@@ -41,6 +42,7 @@ class CreateUserForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data['username']    
+        print('self.instance', self.instance)
         if len(username) > 150:
             raise forms.ValidationError(
                 _("Username is too long (maximum 150 characters).")
@@ -49,8 +51,10 @@ class CreateUserForm(forms.ModelForm):
             raise forms.ValidationError(
                 _("Please enter a valid username. It can only contain letters, numbers and @/./+/-/_ signs.")
             )
-        if Users.objects.filter(username=username).exists():
-            raise forms.ValidationError(
-                _("A user with this name already exists.")
-            )
+        existing_user = get_user_model().objects.filter(username=username).first()
+
+        if existing_user:
+            if not hasattr(self, 'instance') or self.instance.pk != existing_user.pk:
+                raise forms.ValidationError(_("A user with this name already exists."))
         return username
+
