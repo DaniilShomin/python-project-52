@@ -7,6 +7,8 @@
     <title>{% block title %}{% translate 'Task manager' %}{% endblock %}</title>
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <!-- {% bootstrap_messages %} -->
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -18,19 +20,27 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'users' %}">{% translate 'Users' %}</a>
               </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">{% translate 'Logout' %}</a>
+              </li>
+              {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}">{% translate 'Login' %}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'create_user' %}">{% translate 'Registration' %}</a>
               </li>
+              {% endif %}              
             </ul>
           </div>
         </div>
       </nav>
     </header>
     <div id="content" class="container wrapper flex-grow-1">
-        {% block content %}{% endblock %}
+      {% bootstrap_messages %}
+      {% block content %}
+      {% endblock %}
     </div>
     <footer>
         <div class="card-footer text-body-secondary border-top pt-4">
