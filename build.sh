@@ -9,4 +9,4 @@ make install
 
 psql -h dpg-d1cr1emmcj7s73b97lbg-a.oregon-postgres.render.com -U db_task_manager_q2ck_user db_task_manager_q2ck
 
-make migrate
+make migrate_render

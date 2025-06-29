@@ -26,3 +26,7 @@ check:
 migrate:
 	uv run python3 manage.py makemigrations
 	uv run python3 manage.py migrate
+
+migrate_render:
+	python3 manage.py makemigrations
+	python3 manage.py migrate
