@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 16:59+0300\n"
+"POT-Creation-Date: 2025-06-29 19:34+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,11 +87,11 @@ msgstr "Полное имя"
 msgid "Create date"
 msgstr "Дата создания"
 
-#: task_manager/templates/user/index.html:25
+#: task_manager/templates/user/index.html:26
 msgid "Edit"
 msgstr "Изменить"
 
-#: task_manager/templates/user/index.html:26
+#: task_manager/templates/user/index.html:27
 msgid "Delete"
 msgstr "Удалить"
 
@@ -156,23 +156,27 @@ msgstr ""
 msgid "A user with this name already exists."
 msgstr "Пользователь с таким именем уже существует."
 
-#: task_manager/user/views.py:56 task_manager/user/views.py:103
+#: task_manager/user/views.py:41
+msgid "User registered successfully"
+msgstr "Пользователь успешно зарегистрирован"
+
+#: task_manager/user/views.py:57 task_manager/user/views.py:104
 msgid "You are not logged in! Please sign in."
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
-#: task_manager/user/views.py:65
+#: task_manager/user/views.py:66
 msgid "You do not have permission to change another user."
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:86
+#: task_manager/user/views.py:87
 msgid "User successfully changed."
 msgstr "Пользователь успешно изменен"
 
-#: task_manager/user/views.py:112 task_manager/user/views.py:130
+#: task_manager/user/views.py:113 task_manager/user/views.py:131
 msgid "You do not have permission to modify another user."
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/user/views.py:135
+#: task_manager/user/views.py:136
 msgid "User successfully deleted"
 msgstr "Пользователь успешно удален"
 
