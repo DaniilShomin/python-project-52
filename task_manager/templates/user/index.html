@@ -15,6 +15,7 @@
             </tr>
         </thead>
         <tbody>
+            {% if users %}
             {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
@@ -27,6 +28,7 @@
                 </td>
             </tr>
             {% endfor %}
+            {% endif %}
         </tbody>
     </table>
   </div>
