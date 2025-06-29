@@ -20,10 +20,10 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.first_name }} {{ user.last_name }}</td>
-                <td>{{ user.created_at }}</td>
+                <td>{{ user.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
                     <a href="{% url 'update_user' user.id %}">{% translate "Edit" %}</a><br>
-                    <a href="">{% translate "Delete" %}</a>
+                    <a href="{% url 'delete_user' user.id %}">{% translate "Delete" %}</a>
                 </td>
             </tr>
             {% endfor %}

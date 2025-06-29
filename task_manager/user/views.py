@@ -11,7 +11,7 @@ from .models import Users
 # Create your views here.
 class IndexView(View):
     def get(self, request):
-        users = Users.objects.all()
+        users = Users.objects.all().order_by('id')
         return render(
             request,
             'user/index.html',
@@ -57,8 +57,8 @@ class UpdateUserView(LoginRequiredMixin, View):
         return super().dispatch(request, *args, **kwargs)
     
     def get(self, request, pk):
-        user_id = request.user.id
-        if user_id != int(pk):
+        auth_user_id = request.user.id
+        if auth_user_id != int(pk):
             if not request.user.is_superuser:
                 messages.error(
                     request, 
@@ -93,3 +93,44 @@ class UpdateUserView(LoginRequiredMixin, View):
                 'user': user
             }
         )
+    
+
+class DeleteUserView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('You are not logged in! Please sign in.'))
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        auth_user_id = request.user.id
+        if auth_user_id != int(pk):
+            if not request.user.is_superuser:
+                messages.error(
+                    request, 
+                    _('You do not have permission to modify another user.')
+                )
+                return redirect('users')
+        user = Users.objects.get(id=pk)
+        return render(
+            request,
+            'user/delete.html',
+            context={
+                'user': user
+            }
+        )
+    
+    def post(self, request, pk):
+        auth_user_id = request.user.id
+        if auth_user_id != int(pk):
+            if not request.user.is_superuser:
+                messages.error(
+                    request, 
+                    _('You do not have permission to modify another user.')
+                )
+                return redirect('users')
+        user = Users.objects.get(id=pk)
+        user.delete()
+        messages.success(request, _('User successfully deleted'))
+        return redirect('users')
