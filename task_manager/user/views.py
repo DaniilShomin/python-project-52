@@ -38,7 +38,8 @@ class CreateUserView(View):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('index')
+            messages.success(request, _('User registered successfully'))
+            return redirect('login')
         return render(
             request,
             'user/create.html',
