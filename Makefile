@@ -27,6 +27,11 @@ migrate:
 	uv run python3 manage.py makemigrations
 	uv run python3 manage.py migrate
 
-migrate_render:
-	python3 manage.py makemigrations
-	python3 manage.py migrate
+collectstatic:
+	uv run python manage.py collectstatic --noinput
+
+compilemessages:
+	uv run django-admin compilemessages
+
+makemessages:
+	uv run django-admin makemessages --ignore="static" --ignore=".env"  -l ru
