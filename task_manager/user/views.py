@@ -1,15 +1,16 @@
-from django.shortcuts import redirect, render
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Users
 from .forms import CreateUserForm
+from .models import Users
+
 
 # Create your views here.
 class IndexView(View):
-    def get(self,request):
+    def get(self, request):
         users = Users.objects.all()
         return render(
             request,
@@ -21,7 +22,7 @@ class IndexView(View):
     
 
 class CreateUserView(View):
-    def get(self,request):
+    def get(self, request):
         form = CreateUserForm()
         return render(
             request,
@@ -31,7 +32,7 @@ class CreateUserView(View):
             },
         )
 
-    def post(self,request):
+    def post(self, request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -46,6 +47,7 @@ class CreateUserView(View):
             }
         )
     
+
 class UpdateUserView(LoginRequiredMixin, View):
     login_url = '/login/'
 
@@ -54,11 +56,14 @@ class UpdateUserView(LoginRequiredMixin, View):
             messages.error(request, _('You are not logged in! Please sign in.'))
         return super().dispatch(request, *args, **kwargs)
     
-    def get(self,request,pk):
+    def get(self, request, pk):
         user_id = request.user.id
         if user_id != int(pk):
             if not request.user.is_superuser:
-                messages.error(request, _('You do not have permission to change another user.'))
+                messages.error(
+                    request, 
+                    _('You do not have permission to change another user.')
+                )
                 return redirect('users')
         user = Users.objects.get(id=pk)
         form = CreateUserForm(instance=user)
@@ -71,7 +76,7 @@ class UpdateUserView(LoginRequiredMixin, View):
             }
         )
     
-    def post(self,request,pk):
+    def post(self, request, pk):
         user = Users.objects.get(id=pk)
         form = CreateUserForm(request.POST, instance=user)
         if form.is_valid():

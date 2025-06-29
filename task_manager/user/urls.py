@@ -1,7 +1,8 @@
 from django.urls import path
+
 from task_manager.user.views import (
-    IndexView,
     CreateUserView,
+    IndexView,
     UpdateUserView,
 )
 

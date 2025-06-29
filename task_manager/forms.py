@@ -1,7 +1,5 @@
-from django.contrib.auth import authenticate
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from task_manager.user.models import Users
 
 
 class LoginForm(forms.Form):

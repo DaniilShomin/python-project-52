@@ -1,8 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from django.views import View
 from django.utils.translation import gettext_lazy as _
-from django.contrib import messages
+from django.views import View
 
 from task_manager.forms import LoginForm
 
@@ -15,6 +15,7 @@ class IndexView(View):
             context={}
         )
     
+
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
@@ -25,6 +26,7 @@ class LoginView(View):
                 'form': form,
             }
         )
+
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -45,11 +47,12 @@ class LoginView(View):
         return render(
             request, 
             'login.html', 
-            context = {
+            context={
                 'form': form
                 }
             )
     
+
 class LogoutView(View):
     def get(self, request):
         logout(request)

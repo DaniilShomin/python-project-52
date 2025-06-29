@@ -19,3 +19,6 @@ compile_lang:
 
 run:
 	uv run python3 manage.py runserver
+
+check:
+	uv run ruff check
