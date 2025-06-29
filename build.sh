@@ -5,8 +5,5 @@ source $HOME/.local/bin/env
 
 # здесь добавьте все необходимые команды для установки вашего проекта
 # команду установки зависимостей, сборки статики, применения миграций и другие
-export PYTHONPATH=/project/code
-cd /project/code
-
 
 make install && make collectstatic && make compilemessages && make migrate
