@@ -16,13 +16,18 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'index' %}">{% translate 'Task manager' %}</a>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav mr-auto">
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'users' %}">{% translate 'Users' %}</a>
               </li>
+            </ul>
+            <ul class="navbar-nav">
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">{% translate 'Logout' %}</a>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_button content=_("Logout") button_type="submit" button_class="nav-link" element="input" %}
+                </form>
               </li>
               {% else %}
               <li class="nav-item">
