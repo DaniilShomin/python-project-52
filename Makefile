@@ -22,3 +22,7 @@ run:
 
 check:
 	uv run ruff check
+
+migrate:
+	uv run python3 manage.py makemigrations
+	uv run python3 manage.py migrate
