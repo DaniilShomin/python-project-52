@@ -35,3 +35,6 @@ compilemessages:
 
 makemessages:
 	uv run django-admin makemessages --ignore="static" --ignore=".env"  -l ru
+
+test:
+	uv run python3 manage.py test

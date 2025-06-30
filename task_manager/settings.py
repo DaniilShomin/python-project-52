@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'task_manager',
-    'task_manager.user',
+    'task_manager.users',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +95,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'user.Users'
+AUTH_USER_MODEL = 'users.Users'
 
 LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/'
