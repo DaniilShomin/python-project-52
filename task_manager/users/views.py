@@ -9,7 +9,7 @@ from .models import Users
 
 
 # Create your views here.
-class IndexView(View):
+class IndexUserView(View):
     def get(self, request):
         users = Users.objects.all().order_by('id')
         return render(
