@@ -1,5 +1,5 @@
 from django.test import TestCase
-from task_manager.user.models import Users
+from task_manager.users.models import Users
 from datetime import date
 
 

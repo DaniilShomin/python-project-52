@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from task_manager.user.forms import CreateUserForm
+from task_manager.users.forms import CreateUserForm
 from datetime import date
 
 class HomePageTest(TestCase):
