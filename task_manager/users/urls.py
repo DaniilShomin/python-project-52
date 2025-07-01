@@ -2,9 +2,9 @@ from django.urls import path
 
 from task_manager.users.views import (
     CreateUserView,
+    DeleteUserView,
     IndexUserView,
     UpdateUserView,
-    DeleteUserView
 )
 
 urlpatterns = [

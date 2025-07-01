@@ -1,9 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
+
 from task_manager.forms import LoginForm
 from task_manager.users.forms import CreateUserForm
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
+
 
 class CreateUserFormTest(TestCase):
     def test_unique_username_validation(self):

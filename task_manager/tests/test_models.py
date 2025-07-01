@@ -1,6 +1,8 @@
-from django.test import TestCase
-from task_manager.users.models import Users
 from datetime import date
+
+from django.test import TestCase
+
+from task_manager.users.models import Users
 
 
 class UserModelTest(TestCase):
