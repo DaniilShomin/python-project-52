@@ -98,4 +98,25 @@ class UpdateStatusesView(LoginRequiredMixin, View):
         )
 
 class DeleteStatusesView(LoginRequiredMixin, View):
-    pass
+    login_url = '/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('You are not logged in! Please sign in.'))
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        status = Statuses.objects.get(pk=pk)
+        return render(
+            request,
+            'statuses/delete.html',
+            context={
+                'status': status,
+            }
+        )
+    
+    def post(self, request, pk):
+        status = Statuses.objects.get(pk=pk)
+        status.delete()
+        messages.success(request, _('Status successfully deleted'))
+        return redirect('statuses')
