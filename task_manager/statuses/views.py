@@ -50,6 +50,7 @@ class CreateStatusesView(LoginRequiredMixin, View):
         form = CreateStatusesForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, _('Status successfully created'))
             return redirect('statuses')
         return render(
             request,
