@@ -62,8 +62,40 @@ class CreateStatusesView(LoginRequiredMixin, View):
         
 
 class UpdateStatusesView(LoginRequiredMixin, View):
-    pass
+    login_url = '/login/'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('You are not logged in! Please sign in.'))
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get(self, request, pk):
+        status = Statuses.objects.get(pk=pk)
+        form = CreateStatusesForm(instance=status)
+        return render(
+            request,
+            'statuses/update.html',
+            context={
+                'form': form,
+                'status': status,
+            }
+        )
+    
+    def post(self, request, pk):
+        status = Statuses.objects.get(pk=pk)
+        form = CreateStatusesForm(request.POST, instance=status)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Status successfully updated'))
+            return redirect('statuses')
+        return render(
+            request,
+            'statuses/update.html',
+            context={
+                'form': form,
+                'status': status,
+            }
+        )
 
 class DeleteStatusesView(LoginRequiredMixin, View):
     pass
