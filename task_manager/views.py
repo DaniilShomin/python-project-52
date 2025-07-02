@@ -18,14 +18,7 @@ class IndexView(View):
 
 class LoginView(View):
     def get(self, request):
-        form = LoginForm()
-        return render(
-            request,
-            'login.html',
-            context={
-                'form': form,
-            }
-        )
+        return self._render_form(request, LoginForm())
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -35,22 +28,24 @@ class LoginView(View):
 
             user = authenticate(request, username=username, password=password)
             
-            if user is not None:
+            if user:
                 login(request, user)
                 messages.success(request, _('You are login'))
                 return redirect('index')
-            else:
-                form.add_error(None, _(
+            form.add_error(None, _(
                     "Please enter a correct username and password. "
                     "Note that both fields may be case-sensitive."
                 ))
+        return self._render_form(request, form)
+    
+    def _render_form(self, request, form):
         return render(
-            request, 
-            'login.html', 
+            request,
+            'login.html',
             context={
                 'form': form
-                }
-            )
+            }
+        )
     
 
 class LogoutView(View):
