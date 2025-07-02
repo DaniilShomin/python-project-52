@@ -9,3 +9,7 @@ class Users(AbstractUser):
         max_length=150,
         unique=True
     )
+
+    def __str__(self):
+        full_name = self.first_name + ' ' + self.last_name
+        return full_name
