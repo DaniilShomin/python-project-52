@@ -13,7 +13,10 @@ class CreateStatusesForm(forms.ModelForm):
         ]
 
     def clean_name(self):
-        if Statuses.objects.filter(name=self.cleaned_data['name']).exists():
+        status_name = self.cleaned_data['name']
+        stasus = Statuses.objects.filter(name=status_name)
+
+        if stasus.exists() and self.instance.pk != stasus[0].pk:
             raise forms.ValidationError(
                 _('Task status with this Name already exists.')
             )
