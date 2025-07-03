@@ -62,13 +62,7 @@ class IndexTaskView(BaseTaskView):
 class CreateTaskView(BaseTaskView):
     def get(self, request):
         form = CreateTaskForm()
-        return render(
-            request, 
-            'tasks/create.html', 
-            context={
-                'form': form
-            }
-        )
+        return self._render_form(request, form)
     
     def post(self, request):
         form = CreateTaskForm(request.POST)
@@ -77,6 +71,9 @@ class CreateTaskView(BaseTaskView):
             task.author = request.user
             task.save()
             return redirect('tasks')
+        return self._render_form(request, form)
+    
+    def _render_form(self, request, form): 
         return render(
             request, 
             'tasks/create.html', 
@@ -109,4 +106,25 @@ class DeleteTaskView(BaseTaskView):
         return redirect('tasks')
 
 class UpdateTaskView(BaseTaskView):
-    pass
+    def get(self, request, pk):
+        task = get_object_or_404(Tasks, pk=pk)
+        return self._render_form(request, CreateTaskForm(instance=task), task)
+    
+    def post(self, request, pk):
+        task = get_object_or_404(Tasks, pk=pk)
+        form = CreateTaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Task successfully updated'))
+            return redirect('tasks')
+        return self._render_form(request, form, task)
+
+    def _render_form(self, request, form, task):
+        return render(
+            request, 
+            'tasks/update.html', 
+            context={
+                'form': form,
+                'task': task
+            }
+        )
