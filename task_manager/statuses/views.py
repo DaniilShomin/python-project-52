@@ -6,9 +6,10 @@ from django.views import View
 
 from .forms import CreateStatusesForm
 from .models import Statuses
+from task_manager.tasks.models import Tasks
 
 
-class BaseStatusView(LoginRequiredMixin):
+class BaseStatusView(LoginRequiredMixin, View):
     login_url = '/login/'
 
     def dispatch(self, request, *args, **kwargs):
@@ -17,7 +18,7 @@ class BaseStatusView(LoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
     
 
-class IndexStatusesView(BaseStatusView, View):
+class IndexStatusesView(BaseStatusView):
     def get(self, request):
         statuses = Statuses.objects.all().order_by('id')
         return render(
@@ -29,7 +30,7 @@ class IndexStatusesView(BaseStatusView, View):
         )
 
 
-class CreateStatusesView(BaseStatusView, View):
+class CreateStatusesView(BaseStatusView):
     def get(self, request):
         return self._render_form(request, CreateStatusesForm())
 
@@ -51,7 +52,7 @@ class CreateStatusesView(BaseStatusView, View):
         )
 
         
-class UpdateStatusesView(BaseStatusView, View):
+class UpdateStatusesView(BaseStatusView):
     def get(self, request, pk):
         status = get_object_or_404(Statuses, pk=pk)
         return self._render_form(
@@ -78,7 +79,7 @@ class UpdateStatusesView(BaseStatusView, View):
         )
 
 
-class DeleteStatusesView(BaseStatusView, View):
+class DeleteStatusesView(BaseStatusView):
     def get(self, request, pk):
         status = Statuses.objects.get(pk=pk)
         return render(
@@ -91,6 +92,12 @@ class DeleteStatusesView(BaseStatusView, View):
 
     def post(self, request, pk):
         status = get_object_or_404(Statuses, pk=pk)
+        if Tasks.objects.filter(status=status).exists():
+            messages.error(
+                request,
+                _('Cannot delete status because it is in use')
+            )
+            return redirect('statuses')
         status.delete()
         messages.success(request, _('Status successfully deleted'))
         return redirect('statuses')
