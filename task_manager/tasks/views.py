@@ -6,14 +6,42 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 # from .forms import CreateUserForm
-from .forms import SearchTaskForm
+from .forms import (
+    SearchTaskForm,
+    CreateTaskForm,
+)
 from .models import Tasks
 
 
-class IndexTaskView(View):
+class BaseTaskView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, _('You are not logged in! Please sign in.'))
+        return super().dispatch(request, *args, **kwargs)
+
+
+class IndexTaskView(BaseTaskView):
     def get(self, request):
+        tasks = Tasks.objects.all()
         if request.GET:
-            form = SearchTaskForm(data=request.GET)
+            form = SearchTaskForm(request.GET)
+            status_id = request.GET.get('status')
+            if status_id:
+                tasks = tasks.filter(status=status_id)
+            executor_id = request.GET.get('executor')
+            if executor_id:
+                tasks = tasks.filter(executor=executor_id)
+            label_id = request.GET.get('label')
+            if label_id:
+                tasks = tasks.filter(label=label_id)
+
+            self_tasks = request.GET.get('self_tasks')
+            if self_tasks:
+                author = request.user
+                tasks = tasks.filter(author=author)
+
         else:  
             form = SearchTaskForm(
                 initial={
@@ -21,8 +49,7 @@ class IndexTaskView(View):
                     'executor': '',
                     'label': ''
                 }
-            )
-        tasks = Tasks.objects.all()
+            )        
         return render(
             request, 
             'tasks/index.html', 
@@ -32,11 +59,54 @@ class IndexTaskView(View):
             }
         )
     
-class CreateTaskView(LoginRequiredMixin, View):
-    pass
+class CreateTaskView(BaseTaskView):
+    def get(self, request):
+        form = CreateTaskForm()
+        return render(
+            request, 
+            'tasks/create.html', 
+            context={
+                'form': form
+            }
+        )
+    
+    def post(self, request):
+        form = CreateTaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            task.author = request.user
+            task.save()
+            return redirect('tasks')
+        return render(
+            request, 
+            'tasks/create.html', 
+            context={
+                'form': form
+            }
+        )
 
-class DeleteTaskView(LoginRequiredMixin, View):
-    pass
+class DeleteTaskView(BaseTaskView):
+    def get(self, request, pk):
+        task = Tasks.objects.get(pk=pk)
+        if task.author.id != request.user.id:
+            messages.error(
+                request,
+                _('A task can only be deleted by its author.')
+            )
+            return redirect('tasks')
+        return render(
+            request,
+            'tasks/delete.html',
+            context={
+                'task': task,
+            }
+        )
 
-class UpdateTaskView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        task = get_object_or_404(Tasks, pk=pk)
+        task.delete()
+        messages.success(request, _('Task successfully deleted'))
+        return redirect('tasks')
+
+class UpdateTaskView(BaseTaskView):
     pass

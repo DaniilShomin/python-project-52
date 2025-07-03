@@ -44,8 +44,40 @@ class SearchTaskForm(forms.ModelForm):
             'label': '---------',
         }
 
-        required = {
-            'status': False,
-            'executor': False,
-            'label': False,
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['status'].required = False
+        self.fields['executor'].required = False
+        self.fields['label'].required = False
+
+
+class CreateTaskForm(forms.ModelForm):
+    class Meta:
+        model = Tasks
+        fields = [
+            'name',
+            'description',
+            'status',
+            'executor',
+            'label',
+        ]
+        labels = {
+            'name': _('Name'),
+            'description': _('Description'),
+            'status': _('Status'),
+            'executor': _('Executor'),
+            'label': _('Labels'),
         }
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'label': forms.Select(attrs={'class': 'form-control', 'multiple': True}),
+        }
+        empty_label = {
+            'status': '---------',
+            'executor': '---------',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['executor'].required = False
+        self.fields['label'].required = False
