@@ -128,3 +128,15 @@ class UpdateTaskView(BaseTaskView):
                 'task': task
             }
         )
+
+
+class ShowTaskView(BaseTaskView):
+    def get(self, request, pk):
+        task = get_object_or_404(Tasks, pk=pk)
+        return render(
+            request, 
+            'tasks/view.html', 
+            context={
+                'task': task
+            }
+        )
