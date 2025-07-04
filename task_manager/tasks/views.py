@@ -5,6 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
+from task_manager.labels.models import Labels
+
 # from .forms import CreateUserForm
 from .forms import (
     SearchTaskForm,
@@ -35,7 +37,8 @@ class IndexTaskView(BaseTaskView):
                 tasks = tasks.filter(executor=executor_id)
             label_id = request.GET.get('label')
             if label_id:
-                tasks = tasks.filter(label=label_id)
+                label = Labels.objects.get(pk=label_id)
+                tasks = tasks.filter(label=label)
 
             self_tasks = request.GET.get('self_tasks')
             if self_tasks:
@@ -70,6 +73,7 @@ class CreateTaskView(BaseTaskView):
             task = form.save(commit=False)
             task.author = request.user
             task.save()
+            form.save_m2m()
             return redirect('tasks')
         return self._render_form(request, form)
     
