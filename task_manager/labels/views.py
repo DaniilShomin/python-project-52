@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
+from task_manager.tasks.models import Tasks
+
 from .forms import CreateLabelsForm
 from .models import Labels
 
@@ -77,4 +79,24 @@ class UpdateLabelsView(BaseLabelsView):
 
 
 class DeleteLabelsView(BaseLabelsView):
-    pass
+    def get(self, request, pk):
+        label = Labels.objects.get(pk=pk)
+        return render(
+            request,
+            'labels/delete.html',
+            context={
+                'label': label,
+            }
+        )
+
+    def post(self, request, pk):
+        label = get_object_or_404(Labels, pk=pk)
+        if Tasks.objects.filter(label=label).exists():
+            messages.error(
+                request,
+                _('Cannot delete label because it is in use')
+            )
+            return redirect('labels')
+        label.delete()
+        messages.success(request, _('Label successfully deleted'))
+        return redirect('labels')
