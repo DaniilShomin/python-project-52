@@ -40,7 +40,7 @@ msgstr "Вы не авторизованы! Пожалуйста, выполни
 
 #: task_manager/statuses/views.py:41
 msgid "Status successfully created"
-msgstr "Статуч успешно создан"
+msgstr "Статус успешно создан"
 
 #: task_manager/statuses/views.py:67
 msgid "Status successfully updated"
