@@ -11,6 +11,9 @@ class CreateStatusesForm(forms.ModelForm):
         fields = [
             'name',
         ]
+        labels = {
+            'name': _('Name'),
+        }
 
     def clean_name(self):
         status_name = self.cleaned_data['name']
