@@ -50,7 +50,30 @@ class CreateLabelsView(BaseLabelsView):
 
 
 class UpdateLabelsView(BaseLabelsView):
-    pass
+    def get(self, request, pk):
+        label = get_object_or_404(Labels, pk=pk)
+        return self._render_form(
+            request, CreateLabelsForm(instance=label), label
+        )
+
+    def post(self, request, pk):
+        label = get_object_or_404(Labels, pk=pk)
+        form = CreateLabelsForm(request.POST, instance=label)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Label successfully updated'))
+            return redirect('labels')
+        return self._render_form(request, form, label)
+
+    def _render_form(self, request, form, label):
+        return render(
+            request,
+            'labels/update.html',
+            context={
+                'form': form,
+                'label': label,
+            }
+        )
 
 
 class DeleteLabelsView(BaseLabelsView):
