@@ -15,7 +15,6 @@ class CreateLabelsForm(forms.ModelForm):
             'name': _('Name'),
         }
 
-
     def clean_name(self):
         label_name = self.cleaned_data['name']
         label = Labels.objects.filter(name=label_name)

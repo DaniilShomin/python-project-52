@@ -4,9 +4,10 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
+from task_manager.tasks.models import Tasks
+
 from .forms import CreateStatusesForm
 from .models import Statuses
-from task_manager.tasks.models import Tasks
 
 
 class BaseStatusView(LoginRequiredMixin, View):

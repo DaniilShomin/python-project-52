@@ -1,12 +1,3 @@
-'''
-class Tasks(models.Model):
-    name = models.CharField(unique=True)
-    status = models.ForeignKey(Statuses, on_delete=models.CASCADE, related_name='status')
-    autor = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='autor')
-    executor = models.ForeignKey(Users, on_delete=models.CASCADE , related_name='executor')
-    label = models.CharField()
-    created_at = models.DateTimeField(auto_now_add=True)'''
-
 from django import forms
 from django.utils.translation import gettext_lazy as _
 

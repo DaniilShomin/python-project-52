@@ -18,6 +18,7 @@ class BaseLabelsView(LoginRequiredMixin, View):
             messages.error(request, _('You are not logged in! Please sign in.'))
         return super().dispatch(request, *args, **kwargs)
     
+
 class IndexLabelsView(BaseLabelsView):
     def get(self, request):
         labels = Labels.objects.all()

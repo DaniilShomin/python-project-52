@@ -1,15 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-from task_manager.labels.models import Labels
+from task_manager.tasks.filters import TaskFilter
 
 # from .forms import CreateUserForm
 from .forms import (
-    SearchTaskForm,
     CreateTaskForm,
 )
 from .models import Tasks
@@ -24,44 +22,20 @@ class BaseTaskView(LoginRequiredMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
 
-class IndexTaskView(BaseTaskView):
+class IndexTaskView(BaseTaskView):    
     def get(self, request):
         tasks = Tasks.objects.all()
-        if request.GET:
-            form = SearchTaskForm(request.GET)
-            status_id = request.GET.get('status')
-            if status_id:
-                tasks = tasks.filter(status=status_id)
-            executor_id = request.GET.get('executor')
-            if executor_id:
-                tasks = tasks.filter(executor=executor_id)
-            label_id = request.GET.get('label')
-            if label_id:
-                label = Labels.objects.get(pk=label_id)
-                tasks = tasks.filter(label=label)
-
-            self_tasks = request.GET.get('self_tasks')
-            if self_tasks:
-                author = request.user
-                tasks = tasks.filter(author=author)
-
-        else:  
-            form = SearchTaskForm(
-                initial={
-                    'status': '',
-                    'executor': '',
-                    'label': ''
-                }
-            )        
+        filterset = TaskFilter(request.GET, queryset=tasks, request=request)
         return render(
-            request, 
-            'tasks/index.html', 
+            request,
+            'tasks/index.html',
             context={
-                'form': form,
-                'tasks': tasks
+                'form': filterset.form,
+                'tasks': filterset.qs,
             }
         )
     
+
 class CreateTaskView(BaseTaskView):
     def get(self, request):
         form = CreateTaskForm()
@@ -86,6 +60,7 @@ class CreateTaskView(BaseTaskView):
             }
         )
 
+
 class DeleteTaskView(BaseTaskView):
     def get(self, request, pk):
         task = Tasks.objects.get(pk=pk)
@@ -108,6 +83,7 @@ class DeleteTaskView(BaseTaskView):
         task.delete()
         messages.success(request, _('Task successfully deleted'))
         return redirect('tasks')
+
 
 class UpdateTaskView(BaseTaskView):
     def get(self, request, pk):
