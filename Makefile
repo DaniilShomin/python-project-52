@@ -17,7 +17,7 @@ update_lang:
 compile_lang:
 	uv run django-admin compilemessages
 
-run:
+start-server:
 	uv run python3 manage.py runserver
 
 check:
