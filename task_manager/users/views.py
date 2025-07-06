@@ -118,7 +118,10 @@ class DeleteUserView(BaseUserView):
         if isinstance(user, HttpResponseRedirect):
             return user
         if Tasks.objects.filter(executor=user).exists():
-            messages.error(request, _('Cannot delete user because it is in use'))
+            messages.error(
+                request, 
+                _('Cannot delete user because it is in use')
+            )
             return redirect('users')
         user.delete()
         messages.success(request, _('User successfully deleted'))
