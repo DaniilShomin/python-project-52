@@ -37,6 +37,10 @@ class CreateUserForm(forms.ModelForm):
         }
 
     def clean(self):
+        if not self.cleaned_data.get('password'):
+            raise forms.ValidationError(
+                _("You must enter a password.")
+            )
         password = self.cleaned_data['password']
         confirm_password = self.cleaned_data['confirm_password']
         if password != confirm_password:
