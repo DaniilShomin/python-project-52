@@ -45,6 +45,31 @@ class CreateUserFormTest(TestCase):
         self.assertFalse(form.is_valid())
         self.assertIn("username", form.errors)
 
+    def test_load_users(self):
+        user1 = {
+            "username": "user1",
+            "password": "123456",
+            "confirm_password": "123456"
+        }
+        form1 = CreateUserForm(data=user1)
+        form1.save()
+        user2 = {
+            "username": "user2",
+            "password": "123456",
+            "confirm_password": "123456"
+        }
+        form2 = CreateUserForm(data=user2)
+        form2.save()
+        user3 = {
+            "username": "user3",
+            "password": "123456",
+            "confirm_password": "123456"
+        }
+        form3 = CreateUserForm(data=user3)
+        form3.save()
+        users = User.objects.all()
+        self.assertTrue(len(users) == 3)
+        
 
 class LoginFormTest(TestCase):
     def test_valid_login(self):

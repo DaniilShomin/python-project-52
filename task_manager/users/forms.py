@@ -37,12 +37,12 @@ class CreateUserForm(forms.ModelForm):
         }
 
     def clean(self):
-        if not self.cleaned_data.get('password'):
+        password = self.cleaned_data.get('password')
+        if not password:
             raise forms.ValidationError(
                 _("You must enter a password.")
-            )
-        password = self.cleaned_data['password']
-        confirm_password = self.cleaned_data['confirm_password']
+            )        
+        confirm_password = self.cleaned_data.get('confirm_password')
         if password != confirm_password:
             raise forms.ValidationError(
                 _("The passwords entered do not match.")
