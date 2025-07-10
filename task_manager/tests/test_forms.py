@@ -8,68 +8,38 @@ User = get_user_model()
 
 
 class CreateUserFormTest(TestCase):
+    fixtures = ['test_users.json']
+    @classmethod
+    def setUpTestData(cls):
+        cls.form_data = {
+                "username": "existing_user",
+                "first_name": "John",
+                "last_name": "Doe",
+                "password": "123456",
+                "confirm_password": "123456",
+            }
+        
     def test_unique_username_validation(self):
         User.objects.create(username="existing_user")
-        form_data = {
-            "username": "existing_user",
-            "first_name": "John",
-            "last_name": "Doe",
-            "password": "123456",
-            "confirm_password": "123456"
-        }
-        form = CreateUserForm(data=form_data)
+        form = CreateUserForm(data=self.form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("username", form.errors)
 
     def test_update_existing_user(self):
         user = User.objects.create(username="existing_user")
-        form_data = {
-            "username": "existing_user",
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "password": "newpass123",
-            "confirm_password": "newpass123"
-        }
-        form = CreateUserForm(data=form_data, instance=user)
+        form = CreateUserForm(data=self.form_data, instance=user)
         self.assertTrue(form.is_valid())
 
     def test_invalid_characters_in_username(self):
-        form_data = {
-            "username": "user@name#",
-            "first_name": "John",
-            "last_name": "Doe",
-            "password": "123456",
-            "confirm_password": "123456"
-        }
-        form = CreateUserForm(data=form_data)
+        self.form_data["username"] = "user@name#"
+        form = CreateUserForm(data=self.form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("username", form.errors)
 
     def test_load_users(self):
-        user1 = {
-            "username": "user1",
-            "password": "123456",
-            "confirm_password": "123456"
-        }
-        form1 = CreateUserForm(data=user1)
-        form1.save()
-        user2 = {
-            "username": "user2",
-            "password": "123456",
-            "confirm_password": "123456"
-        }
-        form2 = CreateUserForm(data=user2)
-        form2.save()
-        user3 = {
-            "username": "user3",
-            "password": "123456",
-            "confirm_password": "123456"
-        }
-        form3 = CreateUserForm(data=user3)
-        form3.save()
         users = User.objects.all()
         self.assertTrue(len(users) == 3)
-        
+
 
 class LoginFormTest(TestCase):
     def test_valid_login(self):

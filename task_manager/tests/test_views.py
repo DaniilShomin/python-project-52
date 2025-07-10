@@ -26,14 +26,6 @@ class HomePageTest(TestCase):
 
 class CreateUserViewTest(TestCase):
     def setUp(self):
-        self.valid_data = {
-            'username': 'testuser',
-            'first_name': 'Test',
-            'last_name': 'User',
-            'password': 'testpassword',
-            'confirm_password': 'testpassword',
-            'created_at': date.today(),
-        }
         self.response = self.client.get(reverse('create_user'))
     
     def test_create_user(self):
