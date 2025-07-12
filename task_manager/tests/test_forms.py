@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class CreateUserFormTest(TestCase):
-    fixtures = ['test_users.json']
+    fixtures = ['users.json']
 
     @classmethod
     def setUpTestData(cls):
