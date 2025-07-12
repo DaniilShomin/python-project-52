@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
@@ -11,7 +12,8 @@ from .models import Statuses
 
 
 class BaseStatusView(LoginRequiredMixin, View):
-    login_url = '/login/'
+    login_url = reverse_lazy('login')
+    redirect_field_name = None
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
