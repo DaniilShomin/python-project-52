@@ -1,5 +1,6 @@
-from .testcase import LabelsTestCase
 from django.urls import reverse_lazy
+
+from .testcase import LabelsTestCase
 
 
 class LabelsTestUrls(LabelsTestCase):

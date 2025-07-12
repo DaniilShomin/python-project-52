@@ -1,5 +1,5 @@
-from .testcase import LabelsTestCase
 from ..models import Labels
+from .testcase import LabelsTestCase
 
 
 class LabelsTestModel(LabelsTestCase):

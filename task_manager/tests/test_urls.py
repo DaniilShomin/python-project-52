@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 
+
 class URLTests(TestCase):
     def test_index_view(self):
         # Проверка доступности главной страницы

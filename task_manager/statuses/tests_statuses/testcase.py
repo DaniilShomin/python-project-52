@@ -2,23 +2,23 @@ from django.test import Client, TestCase
 
 from task_manager.users.models import Users
 
-from ..models import Labels
+from ..models import Statuses
 
 
-class LabelsTestCase(TestCase):
-    fixtures = ['labels.json', 'users.json']
+class StatusTestCase(TestCase):
+    fixtures = ['statuses.json', 'users.json']
 
     def setUp(self):
         self.client = Client()
-        self.label = Labels.objects.get(pk=1)
+        self.status = Statuses.objects.get(pk=1)
         self.user = Users.objects.get(pk=1)
 
         self.valid_data = {
-            'name': 'Test Label',
+            'name': 'Test Status',
         }
 
         self.update_data = {
-            'name': 'Updated Label',
+            'name': 'Updated Status',
         }
 
         

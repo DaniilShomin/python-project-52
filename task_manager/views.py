@@ -51,6 +51,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         return redirect('index')
+
     def post(self, request):
         logout(request)
         messages.info(request, _('You are logout'))

@@ -1,5 +1,5 @@
-from .testcase import LabelsTestCase
 from ..forms import CreateLabelsForm
+from .testcase import LabelsTestCase
 
 
 class LabelsTestForms(LabelsTestCase):
