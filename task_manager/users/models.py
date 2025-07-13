@@ -7,7 +7,8 @@ class Users(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     username = models.CharField(
         max_length=150,
-        unique=True
+        unique=True,
+        blank=False,
     )
 
     def __str__(self):
