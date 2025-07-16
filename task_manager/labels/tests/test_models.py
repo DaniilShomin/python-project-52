@@ -1,5 +1,5 @@
-from ..models import Labels
-from .testcase import LabelsTestCase
+from task_manager.labels.models import Labels
+from task_manager.labels.tests.testcase import LabelsTestCase
 
 
 class LabelsTestModel(LabelsTestCase):
@@ -10,8 +10,8 @@ class LabelsTestModel(LabelsTestCase):
 
     def test_label_duplicate_name(self):
         with self.assertRaises(Exception):
-            Labels.objects.create({'name': self.label.name})
+            Labels.objects.create({"name": self.label.name})
 
     def test_label_missing_name(self):
         with self.assertRaises(Exception):
-            Labels.objects.create({'name': ''})
+            Labels.objects.create({"name": ""})

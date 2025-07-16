@@ -1,5 +1,5 @@
-from ..forms import CreateLabelsForm
-from .testcase import LabelsTestCase
+from task_manager.labels.forms import CreateLabelsForm
+from task_manager.labels.tests.testcase import LabelsTestCase
 
 
 class LabelsTestForms(LabelsTestCase):
@@ -8,12 +8,11 @@ class LabelsTestForms(LabelsTestCase):
         self.assertTrue(form.is_valid())
 
     def test_missing_data(self):
-        form = CreateLabelsForm(data={'name': ''})
+        form = CreateLabelsForm(data={"name": ""})
         self.assertFalse(form.is_valid())
-        self.assertIn('name', form.errors)
+        self.assertIn("name", form.errors)
 
     def test_duplicate_name(self):
-        form = CreateLabelsForm(data={'name': self.label.name})
+        form = CreateLabelsForm(data={"name": self.label.name})
         self.assertFalse(form.is_valid())
-        self.assertIn('name', form.errors)
-
+        self.assertIn("name", form.errors)

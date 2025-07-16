@@ -2,11 +2,11 @@ from django.test import Client, TestCase
 
 from task_manager.users.models import Users
 
-from ..models import Labels
+from task_manager.labels.models import Labels
 
 
 class LabelsTestCase(TestCase):
-    fixtures = ['labels.json', 'users.json']
+    fixtures = ["labels.json", "users.json"]
 
     def setUp(self):
         self.client = Client()
@@ -14,11 +14,9 @@ class LabelsTestCase(TestCase):
         self.user = Users.objects.get(pk=1)
 
         self.valid_data = {
-            'name': 'Test Label',
+            "name": "Test Label",
         }
 
         self.update_data = {
-            'name': 'Updated Label',
+            "name": "Updated Label",
         }
-
-        
