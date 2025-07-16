@@ -1,5 +1,5 @@
-from ..models import Statuses
-from .testcase import StatusTestCase
+from task_manager.statuses.models import Statuses
+from task_manager.statuses.tests.testcase import StatusTestCase
 
 
 class StatusesTestModel(StatusTestCase):
@@ -10,8 +10,8 @@ class StatusesTestModel(StatusTestCase):
 
     def test_status_duplicate_name(self):
         with self.assertRaises(Exception):
-            Statuses.objects.create({'name': self.label.name})
+            Statuses.objects.create({"name": self.label.name})
 
     def test_status_missing_name(self):
         with self.assertRaises(Exception):
-            Statuses.objects.create({'name': ''})
+            Statuses.objects.create({"name": ""})
