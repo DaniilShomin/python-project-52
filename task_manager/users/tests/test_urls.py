@@ -11,7 +11,7 @@ from task_manager.users.views import (
 
 class TestUserURLs(SimpleTestCase):
     """Тестирование маршрутов URL для пользователей."""
-    
+
     def test_index_user_url(self):
         """Проверка маршрута для списка пользователей."""
         url = reverse_lazy("users")
