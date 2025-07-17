@@ -5,10 +5,10 @@
 <main>
   <div class="container-md mt-3">
     <h1>{% translate "Tasks" %}</h1>
-    <a href="{% url 'create_task' %}" class="btn btn-primary">{% translate "Create task" %}</a>
+    <a href="{% url 'tasks:create' %}" class="btn btn-primary">{% translate "Create task" %}</a>
     <div class="container-md bg-body-tertiary mt-3 mb-3 border rounded-3">
         <div class="p-3">
-            <form action="{% url 'tasks' %}" method="get">
+            <form action="{% url 'tasks:index' %}" method="get">
                 {% bootstrap_form form %}
                 {% bootstrap_button button_type="submit" content=_('Show') %}
             </form>
@@ -31,14 +31,14 @@
             {% for task in tasks %}
             <tr>
                 <td>{{ task.id }}</td>
-                <td><a href="{% url 'view_task' task.id %}">{{ task.name }}</a></td>
+                <td><a href="{% url 'tasks:show' task.id %}">{{ task.name }}</a></td>
                 <td>{{ task.status }}</td>
                 <td>{{ task.author }}</td>
                 <td>{{ task.executor|default_if_none:"" }}</td>
                 <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'update_task' task.id %}">{% translate "Edit" %}</a><br>
-                    <a href="{% url 'delete_task' task.id %}">{% translate "Delete" %}</a>
+                    <a href="{% url 'tasks:update' task.id %}">{% translate "Edit" %}</a><br>
+                    <a href="{% url 'tasks:delete' task.id %}">{% translate "Delete" %}</a>
                 </td>
             </tr>
             {% endfor %}
