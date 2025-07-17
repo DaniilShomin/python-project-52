@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from task_manager.statuses.tests.testcase import StatusTestCase
 
 
-class StatusesTestUrls(StatusTestCase):
+class StatusTestUrls(StatusTestCase):
     def test_status_unauthorized(self):
         response = self.client.get(reverse_lazy("statuses"))
         self.assertEqual(response.status_code, 302)
