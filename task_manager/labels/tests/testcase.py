@@ -6,7 +6,7 @@ from task_manager.labels.models import Label
 
 
 class LabelTestCase(TestCase):
-    fixtures = ["labels.json", "users.json"]
+    fixtures = ["test_labels.json", "test_users.json"]
 
     def setUp(self):
         self.client = Client()

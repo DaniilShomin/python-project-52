@@ -6,7 +6,7 @@ from task_manager.statuses.models import Status
 
 
 class StatusTestCase(TestCase):
-    fixtures = ["statuses.json", "users.json"]
+    fixtures = ["test_statuses.json", "test_users.json"]
 
     def setUp(self):
         self.client = Client()
