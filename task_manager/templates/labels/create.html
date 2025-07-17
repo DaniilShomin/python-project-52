@@ -6,7 +6,7 @@
 <main>
   <div class="container-md mt-3">
     <h1>{% translate "Create label" %}</h1>
-    <form action="{% url 'label:create' %}" method="post">
+    <form action="{% url 'labels:create' %}" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% bootstrap_button button_type="submit" content=_('Create') %}

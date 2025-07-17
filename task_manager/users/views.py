@@ -27,7 +27,7 @@ class IndexUserView(View):
         users = User.objects.all().order_by("id")
         return render(
             request,
-            "user/index.html",
+            "users/index.html",
             context={"users": users},
         )
 
@@ -47,7 +47,7 @@ class CreateUserView(View):
         return self._render_form(request, form)
 
     def _render_form(self, request, form):
-        return render(request, "user/create.html", context={"form": form})
+        return render(request, "users/create.html", context={"form": form})
 
 
 class UpdateUserView(BaseUserView):
@@ -68,7 +68,7 @@ class UpdateUserView(BaseUserView):
             updated_user.set_password(form.cleaned_data["password"])
             updated_user.save()
             messages.success(request, _("User successfully changed."))
-            return redirect("users")
+            return redirect("users:index")
         return self._render_form(request, form, user)
 
     def _get_user(self, user_id):
@@ -80,12 +80,12 @@ class UpdateUserView(BaseUserView):
                 self.request,
                 _("You do not have permission to change another user."),
             )
-            return redirect("users")
+            return redirect("users:index")
         return user
 
     def _render_form(self, request, form, user):
         return render(
-            request, "user/update.html", context={"form": form, "user": user}
+            request, "users/update.html", context={"form": form, "user": user}
         )
 
 
@@ -94,7 +94,7 @@ class DeleteUserView(BaseUserView):
         user = self._get_user(pk)
         if isinstance(user, HttpResponseRedirect):
             return user
-        return render(request, "user/delete.html", context={"user": user})
+        return render(request, "users/delete.html", context={"user": user})
 
     def post(self, request, pk):
         user = self._get_user(pk)
@@ -104,10 +104,10 @@ class DeleteUserView(BaseUserView):
             messages.error(
                 request, _("Cannot delete user because it is in use")
             )
-            return redirect("users")
+            return redirect("users:index")
         user.delete()
         messages.success(request, _("User successfully deleted"))
-        return redirect("users")
+        return redirect("users:index")
 
     def _get_user(self, user_id):
         user = get_object_or_404(User, id=user_id)
@@ -118,5 +118,5 @@ class DeleteUserView(BaseUserView):
                 self.request,
                 _("You do not have permission to change another user."),
             )
-            return redirect("users")
+            return redirect("users:index")
         return user
