@@ -15,7 +15,6 @@ class StatusTestCase(TestCase):
             "last_name": "Snow",
             "username": "john_snow",
             "password": "Stark123",
-            "created_at": "2023-09-12T15:25:26.987Z",
         }
 
         self.status = Status.objects.create(**status)

@@ -14,7 +14,6 @@ class UserTestCase(TestCase):
             "last_name": "Snow",
             "username": "john_snow",
             "password": "Stark123",
-            "created_at": "2023-09-12T15:25:26.987Z",
         }
 
         user2 = {
@@ -22,7 +21,6 @@ class UserTestCase(TestCase):
             "last_name": "Targaryen",
             "username": "daenerys_t",
             "password": "Dracarys123",
-            "created_at": "2023-09-12T15:25:26.987Z",
         }
 
         user3 = {
@@ -30,7 +28,6 @@ class UserTestCase(TestCase):
             "last_name": "Stark",
             "username": "arya_stark",
             "password": "Arya123",
-            "created_at": "2023-09-12T15:25:26.987Z",
         }
 
         self.user1 = User.objects.create(**user1)
