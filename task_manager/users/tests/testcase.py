@@ -1,9 +1,7 @@
 from django.test import Client, TestCase
 
-from task_manager.tasks.models import Task
-
 from task_manager.statuses.models import Status
-
+from task_manager.tasks.models import Task
 from task_manager.users.models import User
 
 
@@ -43,7 +41,8 @@ class UserTestCase(TestCase):
 
         task = {
             "name": "Defend the Wall",
-            "description": "Coordinate the Night's Watch to defend Castle Black from wildlings.",
+            "description": "Coordinate the Night's Watch to "
+            "defend Castle Black from wildlings.",
             "status": self.status,
             "author": self.user2,
             "executor": self.user1,

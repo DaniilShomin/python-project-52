@@ -5,10 +5,9 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-from task_manager.tasks.models import Task
-
 from task_manager.labels.forms import CreateLabelForm
 from task_manager.labels.models import Label
+from task_manager.tasks.models import Task
 
 
 class BaseLabelsView(LoginRequiredMixin, View):

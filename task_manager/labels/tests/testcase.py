@@ -1,8 +1,7 @@
 from django.test import Client, TestCase
 
-from task_manager.users.models import User
-
 from task_manager.labels.models import Label
+from task_manager.users.models import User
 
 
 class LabelTestCase(TestCase):

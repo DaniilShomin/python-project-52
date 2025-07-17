@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 from task_manager.tasks.models import Task
-
 from task_manager.users.forms import CreateUserForm
 from task_manager.users.models import User
 
