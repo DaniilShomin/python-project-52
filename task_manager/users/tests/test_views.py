@@ -7,19 +7,19 @@ from task_manager.users.tests.testcase import UserTestCase
 class UsersTestViews(UserTestCase):
     def test_index_user_view(self):
         self.client.force_login(self.user1)
-        response = self.client.get(reverse_lazy("users"))
+        response = self.client.get(reverse_lazy("users:index"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user/index.html")
+        self.assertTemplateUsed(response, "users/index.html")
         self.assertIn("users", response.context)
 
     def test_create_user_view_get(self):
-        response = self.client.get(reverse_lazy("create_user"))
+        response = self.client.get(reverse_lazy("users:create"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user/create.html")
+        self.assertTemplateUsed(response, "users/create.html")
 
     def test_create_user_view_post_valid(self):
         response = self.client.post(
-            reverse_lazy("create_user"), data=self.valid_data
+            reverse_lazy("users:create"), data=self.valid_data
         )
         self.assertRedirects(response, reverse_lazy("login"))
         self.assertTrue(
@@ -30,46 +30,46 @@ class UsersTestViews(UserTestCase):
         invalid_data = self.valid_data.copy()
         invalid_data["confirm_password"] = "WrongPass123"
         response = self.client.post(
-            reverse_lazy("create_user"), data=invalid_data
+            reverse_lazy("users:create"), data=invalid_data
         )
         self.assertEqual(response.status_code, 200)
 
     def test_update_user_view_get(self):
         self.client.force_login(self.user1)
         response = self.client.get(
-            reverse_lazy("update_user", args=[self.user1.id])
+            reverse_lazy("users:update", args=[self.user1.id])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user/update.html")
+        self.assertTemplateUsed(response, "users/update.html")
 
     def test_update_user_view_post_success(self):
         self.client.force_login(self.user1)
         response = self.client.post(
-            reverse_lazy("update_user", args=[self.user1.id]),
+            reverse_lazy("users:update", args=[self.user1.id]),
             data=self.valid_data,
         )
-        self.assertRedirects(response, reverse_lazy("users"))
+        self.assertRedirects(response, reverse_lazy("users:index"))
         user = User.objects.get(id=self.user1.id)
         self.assertEqual(user.first_name, self.valid_data["first_name"]),
 
     def test_update_user_permission_denied(self):
         self.client.force_login(self.user1)
         response = self.client.get(
-            reverse_lazy("update_user", args=[self.user2.id])
+            reverse_lazy("users:update", args=[self.user2.id])
         )
         self.assertEqual(response.status_code, 302)
 
     def test_delete_user_view_get(self):
         self.client.force_login(self.user1)
         response = self.client.get(
-            reverse_lazy("delete_user", args=[self.user1.id])
+            reverse_lazy("users:delete", args=[self.user1.id])
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user/delete.html")
+        self.assertTemplateUsed(response, "users/delete.html")
 
     def test_delete_user_with_tasks(self):
         self.client.force_login(self.user1)
         response = self.client.post(
-            reverse_lazy("delete_user", args=[self.user1.id])
+            reverse_lazy("users:delete", args=[self.user1.id])
         )
         self.assertEqual(response.status_code, 302)
