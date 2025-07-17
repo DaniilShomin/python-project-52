@@ -51,7 +51,7 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(self.response, "index.html")
 
         # contains correct html
-        self.assertContains(self.response, "Greetings from Hexlet!")
+        self.assertContains(self.response, "Привет от Хекслета!")
 
         # does not contain incorrect html
         self.assertNotContains(self.response, "This text shouldn't be here")
