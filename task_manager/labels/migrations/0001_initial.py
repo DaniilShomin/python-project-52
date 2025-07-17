@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Task",
+            name="Label",
             fields=[
                 (
                     "id",
@@ -22,8 +22,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(unique=True)),
-                ("description", models.TextField(blank=True, null=True)),
+                ("name", models.CharField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),

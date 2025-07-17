@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-from task_manager.tasks.models import Tasks
+from task_manager.tasks.models import Task
 
 from task_manager.labels.forms import CreateLabelForm
 from task_manager.labels.models import Label
@@ -84,7 +84,7 @@ class DeleteLabelsView(BaseLabelsView):
 
     def post(self, request, pk):
         label = get_object_or_404(Label, pk=pk)
-        if Tasks.objects.filter(label=label).exists():
+        if Task.objects.filter(label=label).exists():
             messages.error(
                 request, _("Cannot delete label because it is in use")
             )

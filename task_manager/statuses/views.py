@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-from task_manager.tasks.models import Tasks
+from task_manager.tasks.models import Task
 
 from .forms import CreateStatusForm
 from .models import Status
@@ -87,7 +87,7 @@ class DeleteStatusesView(BaseStatusView):
 
     def post(self, request, pk):
         status = get_object_or_404(Status, pk=pk)
-        if Tasks.objects.filter(status=status).exists():
+        if Task.objects.filter(status=status).exists():
             messages.error(
                 request, _("Cannot delete status because it is in use")
             )
