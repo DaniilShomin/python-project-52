@@ -109,6 +109,7 @@ DATABASES = {
     )
 }
 
+FIXTURE_DIRS = [BASE_DIR / "task_manager" / "fixtures"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
