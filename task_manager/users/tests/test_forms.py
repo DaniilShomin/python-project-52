@@ -1,8 +1,8 @@
 from task_manager.users.forms import CreateUserForm
-from task_manager.users.tests.testcase import UsersTestCase
+from task_manager.users.tests.testcase import UserTestCase
 
 
-class UsersTestForms(UsersTestCase):
+class UserTestForms(UserTestCase):
     def test_valid_data(self):
         form = CreateUserForm(data=self.valid_data)
         self.assertTrue(form.is_valid())

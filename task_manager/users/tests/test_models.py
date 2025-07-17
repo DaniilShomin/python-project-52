@@ -1,29 +1,29 @@
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
-from task_manager.users.models import Users
-from task_manager.users.tests.testcase import UsersTestCase
+from task_manager.users.models import User
+from task_manager.users.tests.testcase import UserTestCase
 
 
-class TestUsersModel(UsersTestCase):
+class TestUsersModel(UserTestCase):
     def setUp(self):
         super().setUp()
         del self.valid_data["confirm_password"]
 
     def test_user_creation(self):
-        initial_count = Users.objects.count()
-        Users.objects.create(**self.valid_data)
-        self.assertEqual(Users.objects.count(), initial_count + 1)
+        initial_count = User.objects.count()
+        User.objects.create(**self.valid_data)
+        self.assertEqual(User.objects.count(), initial_count + 1)
 
     def test_user_duplicate_username(self):
         data = self.valid_data.copy()
         data["username"] = self.user1.username
         with self.assertRaises(IntegrityError):
-            Users.objects.create(**data)
+            User.objects.create(**data)
 
     def test_status_missing_name(self):
         data = self.valid_data.copy()
         data["username"] = ""
-        user = Users.objects.create(**data)
+        user = User.objects.create(**data)
         with self.assertRaises(ValidationError):
             user.full_clean()

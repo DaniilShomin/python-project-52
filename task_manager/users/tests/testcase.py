@@ -1,18 +1,18 @@
 from django.test import Client, TestCase
 
-from task_manager.tasks.models import Tasks
+from task_manager.tasks.models import Task
 
-from task_manager.users.models import Users
+from task_manager.users.models import User
 
 
-class UsersTestCase(TestCase):
+class UserTestCase(TestCase):
     fixtures = ["users.json", "tasks.json", "statuses.json"]
 
     def setUp(self):
         self.client = Client()
-        self.user1 = Users.objects.get(pk=1)
-        self.user2 = Users.objects.get(pk=2)
-        self.task = Tasks.objects.get(pk=1)
+        self.user1 = User.objects.get(pk=1)
+        self.user2 = User.objects.get(pk=2)
+        self.task = Task.objects.get(pk=1)
 
         self.valid_data = {
             "first_name": "Tom",
