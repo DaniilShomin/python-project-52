@@ -37,7 +37,7 @@ class CreateLabelsView(BaseLabelsView):
         form = CreateLabelForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("labels")
+            return redirect("labels:index")
         return self._render_form(request, form)
 
     def _render_form(self, request, form):
@@ -57,7 +57,7 @@ class UpdateLabelsView(BaseLabelsView):
         if form.is_valid():
             form.save()
             messages.success(request, _("Label successfully updated"))
-            return redirect("labels")
+            return redirect("labels:index")
         return self._render_form(request, form, label)
 
     def _render_form(self, request, form, label):
@@ -88,7 +88,7 @@ class DeleteLabelsView(BaseLabelsView):
             messages.error(
                 request, _("Cannot delete label because it is in use")
             )
-            return redirect("labels")
+            return redirect("labels:index")
         label.delete()
         messages.success(request, _("Label successfully deleted"))
-        return redirect("labels")
+        return redirect("labels:index")

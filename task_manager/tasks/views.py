@@ -48,7 +48,7 @@ class CreateTaskView(BaseTaskView):
             task.author = request.user
             task.save()
             form.save_m2m()
-            return redirect("tasks")
+            return redirect("tasks:index")
         return self._render_form(request, form)
 
     def _render_form(self, request, form):
@@ -62,7 +62,7 @@ class DeleteTaskView(BaseTaskView):
             messages.error(
                 request, _("A task can only be deleted by its author.")
             )
-            return redirect("tasks")
+            return redirect("tasks:index")
         return render(
             request,
             "tasks/delete.html",
@@ -75,7 +75,7 @@ class DeleteTaskView(BaseTaskView):
         task = get_object_or_404(Task, pk=pk)
         task.delete()
         messages.success(request, _("Task successfully deleted"))
-        return redirect("tasks")
+        return redirect("tasks:index")
 
 
 class UpdateTaskView(BaseTaskView):
@@ -89,7 +89,7 @@ class UpdateTaskView(BaseTaskView):
         if form.is_valid():
             form.save()
             messages.success(request, _("Task successfully updated"))
-            return redirect("tasks")
+            return redirect("tasks:index")
         return self._render_form(request, form, task)
 
     def _render_form(self, request, form, task):

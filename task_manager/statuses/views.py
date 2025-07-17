@@ -40,7 +40,7 @@ class CreateStatusesView(BaseStatusView):
         if form.is_valid():
             form.save()
             messages.success(request, _("Status successfully created"))
-            return redirect("statuses")
+            return redirect("statuses:index")
         return self._render_form(request, form)
 
     def _render_form(self, request, form):
@@ -60,7 +60,7 @@ class UpdateStatusesView(BaseStatusView):
         if form.is_valid():
             form.save()
             messages.success(request, _("Status successfully updated"))
-            return redirect("statuses")
+            return redirect("statuses:index")
         return self._render_form(request, form, status)
 
     def _render_form(self, request, form, status):
@@ -91,7 +91,7 @@ class DeleteStatusesView(BaseStatusView):
             messages.error(
                 request, _("Cannot delete status because it is in use")
             )
-            return redirect("statuses")
+            return redirect("statuses:index")
         status.delete()
         messages.success(request, _("Status successfully deleted"))
-        return redirect("statuses")
+        return redirect("statuses:index")
