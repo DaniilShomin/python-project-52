@@ -2,7 +2,6 @@ install:
 	uv sync
 
 build:
-	chmod +x ./build.sh
 	./build.sh
 
 render-start:
@@ -17,12 +16,15 @@ compile_lang:
 start-server:
 	uv run python3 manage.py runserver
 
-check:
-	uv run ruff check
+lint:
+	uv run ruff check task_manager
 
 migrate:
 	uv run python3 manage.py makemigrations
 	uv run python3 manage.py migrate
+
+collectstatic:
+	uv run python3 manage.py collectstatic --no-input
 
 test:
 	uv run python3 manage.py test

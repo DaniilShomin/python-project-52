@@ -32,11 +32,16 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", False) == "True"
 
-ALLOWED_HOSTS = [
-    "python-project-52-zib0.onrender.com",
-    "localhost",
-    "127.0.0.1",
-]
+ALLOWED_HOSTS = (
+    ["*"]
+    if DEBUG
+    else [
+        "webserver",
+        "python-project-52-zib0.onrender.com",
+        "localhost",
+        "127.0.0.1",
+    ]
+)
 
 # Application definition
 
@@ -47,13 +52,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_bootstrap5",
-    "django_filters",
     "task_manager",
+    "django_bootstrap5",
     "task_manager.users",
     "task_manager.statuses",
     "task_manager.tasks",
     "task_manager.labels",
+    "crispy_bootstrap5",
+    "crispy_forms",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -68,6 +75,8 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 ROLLBAR_KEY = os.getenv("ROLLBAR_KEY")
 
@@ -101,13 +110,17 @@ WSGI_APPLICATION = "task_manager.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default=os.getenv("DATABASE_URL"),
-        conn_max_age=600,
-    )
-}
+if os.getenv("USE_SQLITE") == "True":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
