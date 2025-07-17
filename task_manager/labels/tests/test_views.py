@@ -1,10 +1,10 @@
 from django.urls import reverse_lazy
 
-from task_manager.labels.models import Labels
-from task_manager.labels.tests.testcase import LabelsTestCase
+from task_manager.labels.models import Label
+from task_manager.labels.tests.testcase import LabelTestCase
 
 
-class LabelsTestViews(LabelsTestCase):
+class LabelsTestViews(LabelTestCase):
     def test_labels_unauthenticated(self):
         response = self.client.get(reverse_lazy("labels"))
         self.assertRedirects(response, reverse_lazy("login"))
@@ -15,10 +15,10 @@ class LabelsTestViews(LabelsTestCase):
         self.assertTemplateUsed(response, "labels/index.html")
 
 
-class LabelTestCreateView(LabelsTestCase):
+class LabelTestCreateView(LabelTestCase):
     def test_label_creation_authorized(self):
         self.client.force_login(self.user)
-        initial_count = Labels.objects.count()
+        initial_count = Label.objects.count()
 
         response = self.client.get(reverse_lazy("create_label"))
         self.assertTemplateUsed(response, "labels/create.html")
@@ -28,7 +28,7 @@ class LabelTestCreateView(LabelsTestCase):
             data=self.valid_data,
         )
         self.assertRedirects(response, reverse_lazy("labels"))
-        self.assertEqual(Labels.objects.count(), initial_count + 1)
+        self.assertEqual(Label.objects.count(), initial_count + 1)
 
     def test_label_creation_unauthorized(self):
         response = self.client.get(reverse_lazy("create_label"))
@@ -41,7 +41,7 @@ class LabelTestCreateView(LabelsTestCase):
         self.assertRedirects(response, reverse_lazy("login"))
 
 
-class LabelTestUpdateView(LabelsTestCase):
+class LabelTestUpdateView(LabelTestCase):
     def test_label_update_authorized(self):
         self.client.force_login(self.user)
         response = self.client.get(
@@ -54,7 +54,7 @@ class LabelTestUpdateView(LabelsTestCase):
             data=self.update_data,
         )
         self.assertRedirects(response, reverse_lazy("labels"))
-        updated_label = Labels.objects.get(id=self.label.id)
+        updated_label = Label.objects.get(id=self.label.id)
         self.assertEqual(updated_label.name, self.update_data["name"])
 
     def test_label_update_unauthorized(self):
@@ -70,10 +70,10 @@ class LabelTestUpdateView(LabelsTestCase):
         self.assertRedirects(response, reverse_lazy("login"))
 
 
-class LabelTestDeleteView(LabelsTestCase):
+class LabelTestDeleteView(LabelTestCase):
     def test_label_delete_authorized(self):
         self.client.force_login(self.user)
-        initial_count = Labels.objects.count()
+        initial_count = Label.objects.count()
 
         response = self.client.get(
             reverse_lazy("delete_label", kwargs={"pk": self.label.id})
@@ -84,7 +84,7 @@ class LabelTestDeleteView(LabelsTestCase):
             reverse_lazy("delete_label", kwargs={"pk": self.label.id})
         )
         self.assertRedirects(response, reverse_lazy("labels"))
-        self.assertEqual(Labels.objects.count(), initial_count - 1)
+        self.assertEqual(Label.objects.count(), initial_count - 1)
 
     def test_label_delete_unauthorized(self):
         response = self.client.get(

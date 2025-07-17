@@ -1,17 +1,17 @@
 from django.test import Client, TestCase
 
-from task_manager.users.models import Users
+from task_manager.users.models import User
 
-from task_manager.labels.models import Labels
+from task_manager.labels.models import Label
 
 
-class LabelsTestCase(TestCase):
+class LabelTestCase(TestCase):
     fixtures = ["labels.json", "users.json"]
 
     def setUp(self):
         self.client = Client()
-        self.label = Labels.objects.get(pk=1)
-        self.user = Users.objects.get(pk=1)
+        self.label = Label.objects.get(pk=1)
+        self.user = User.objects.get(pk=1)
 
         self.valid_data = {
             "name": "Test Label",

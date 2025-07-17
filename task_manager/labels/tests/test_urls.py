@@ -1,9 +1,9 @@
 from django.urls import reverse_lazy
 
-from task_manager.labels.tests.testcase import LabelsTestCase
+from task_manager.labels.tests.testcase import LabelTestCase
 
 
-class LabelsTestUrls(LabelsTestCase):
+class LabelTestUrl(LabelTestCase):
     def test_label_unauthorized(self):
         response = self.client.get(reverse_lazy("labels"))
         self.assertEqual(response.status_code, 302)
