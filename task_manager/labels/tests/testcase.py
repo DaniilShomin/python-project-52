@@ -6,12 +6,20 @@ from task_manager.labels.models import Label
 
 
 class LabelTestCase(TestCase):
-    fixtures = ["test_labels.json", "test_users.json"]
-
     def setUp(self):
         self.client = Client()
-        self.label = Label.objects.get(pk=1)
-        self.user = User.objects.get(pk=1)
+
+        label = {"name": "bug", "created_at": "2023-09-24T16:06:44.864685Z"}
+        user = {
+            "first_name": "John",
+            "last_name": "Snow",
+            "username": "john_snow",
+            "password": "Stark123",
+            "created_at": "2023-09-12T15:25:26.987Z",
+        }
+
+        self.label = Label.objects.create(**label)
+        self.user = User.objects.create(**user)
 
         self.valid_data = {
             "name": "Test Label",

@@ -6,12 +6,20 @@ from task_manager.statuses.models import Status
 
 
 class StatusTestCase(TestCase):
-    fixtures = ["test_statuses.json", "test_users.json"]
-
     def setUp(self):
         self.client = Client()
-        self.status = Status.objects.get(pk=1)
-        self.user = User.objects.get(pk=1)
+
+        status = {"name": "inwork", "created_at": "2023-08-11T17:04:28.819Z"}
+        user = {
+            "first_name": "John",
+            "last_name": "Snow",
+            "username": "john_snow",
+            "password": "Stark123",
+            "created_at": "2023-09-12T15:25:26.987Z",
+        }
+
+        self.status = Status.objects.create(**status)
+        self.user = User.objects.create(**user)
 
         self.valid_data = {"name": "Test Status"}
 
