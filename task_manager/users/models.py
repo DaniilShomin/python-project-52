@@ -4,11 +4,6 @@ from django.db import models
 
 # Create your models here.
 class User(AbstractUser):
-    username = models.CharField(
-        max_length=150,
-        unique=True,
-        blank=False,
-    )
 
     def __str__(self):
         full_name = self.first_name + " " + self.last_name
