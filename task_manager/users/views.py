@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-# from task_manager.tasks.models import Task
+from task_manager.tasks.models import Task
 from task_manager.users.forms import CreateUserForm
 from task_manager.users.models import User
 
@@ -99,11 +99,11 @@ class DeleteUserView(BaseUserView):
         user = self._get_user(pk)
         if isinstance(user, HttpResponseRedirect):
             return user
-        # if Task.objects.filter(executor=user).exists():
-        #     messages.error(
-        #         request, _("Cannot delete user because it is in use")
-        #     )
-        #     return redirect("users:index")
+        if Task.objects.filter(executor=user).exists():
+            messages.error(
+                request, _("Cannot delete user because it is in use")
+            )
+            return redirect("users:index")
         user.delete()
         messages.success(request, _("User successfully deleted"))
         return redirect("users:index")

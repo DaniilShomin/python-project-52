@@ -22,13 +22,13 @@
               </li>
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="">{% translate 'Statuses' %}</a>
+                <a class="nav-link" href="{% url 'statuses:index' %}">{% translate 'Statuses' %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">{% translate 'Labels' %}</a>
+                <a class="nav-link" href="{% url 'labels:index' %}">{% translate 'Labels' %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">{% translate 'Tasks' %}</a>
+                <a class="nav-link" href="{% url 'tasks:index' %}">{% translate 'Tasks' %}</a>
               </li>
               {% endif %}
             </ul>

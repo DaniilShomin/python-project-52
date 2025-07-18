@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import gettext_lazy as _
+
 from task_manager.users.models import User
 
 
@@ -21,15 +22,18 @@ class CreateUserForm(UserCreationForm):
                 "Required. 150 characters or fewer. "
                 "Letters, digits and @/./+/-/_ only."
             ),
-            "password": _(
+            "password1": _(
                 "<ul><li>Your password must be at "
                 "least 3 characters long.</ul></li>"
             ),
+            "password2": _("To confirm, please enter your password again."),
         }
         labels = {
             "first_name": _("First Name"),
             "last_name": _("Last Name"),
             "username": _("Username"),
+            "password1": _("Password"),
+            "password2": _("Confirm Password"),
         }
         widgets = {
             "password": forms.PasswordInput(),
@@ -38,33 +42,34 @@ class CreateUserForm(UserCreationForm):
     def clean(self):
         password = self.cleaned_data.get("password1")
         if not password:
-            raise forms.ValidationError(_("You must enter a password."))
+            self.add_error("password1", _("You must enter a password."))
         confirm_password = self.cleaned_data.get("password2")
         if password != confirm_password:
-            raise forms.ValidationError(
-                _("The passwords entered do not match.")
+            self.add_error(
+                "password2", _("The passwords entered do not match.")
             )
         if len(password) < 3:
-            raise forms.ValidationError(
+            self.add_error(
+                "password2",
                 _(
-                    "The password you entered is too short. "
-                    "It must contain at least 3 characters."
-                )
+                    "The password you entered is too short. It must contain at least 3 characters."
+                ),
             )
         return self.cleaned_data
 
     def clean_username(self):
         username = self.cleaned_data["username"]
         if len(username) > 150:
-            raise forms.ValidationError(
-                _("Username is too long (maximum 150 characters).")
+            self.add_error(
+                "username", _("Username is too long (maximum 150 characters).")
             )
         if not all(c.isalnum() or c in "@.+-_" for c in username):
-            raise forms.ValidationError(
+            self.add_error(
+                "username",
                 _(
                     "Please enter a valid username. "
-                    "It can only contain letters, numbers and @/./+/-/_ signs."
-                )
+                    "It can only contain letters, numbers and @/./+/-/_ signs.",
+                ),
             )
 
         User = get_user_model()
@@ -75,7 +80,7 @@ class CreateUserForm(UserCreationForm):
                 not hasattr(self, "instance")
                 or self.instance.pk != existing_user.pk
             ):
-                raise forms.ValidationError(
-                    _("A user with this name already exists.")
+                self.add_error(
+                    "username", _("A user with this name already exists.")
                 )
         return username
