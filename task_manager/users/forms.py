@@ -1,16 +1,11 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.forms import UserCreationForm
 from task_manager.users.models import User
 
 
-class CreateUserForm(forms.ModelForm):
-    confirm_password = forms.CharField(
-        label=_("Confirm Password"),
-        widget=forms.PasswordInput,
-        help_text=_("To confirm, please enter your password again."),
-    )
+class CreateUserForm(UserCreationForm):
 
     class Meta:
         model = User
@@ -18,8 +13,8 @@ class CreateUserForm(forms.ModelForm):
             "first_name",
             "last_name",
             "username",
-            "password",
-            "confirm_password",
+            "password1",
+            "password2",
         ]
         help_texts = {
             "username": _(
@@ -58,29 +53,29 @@ class CreateUserForm(forms.ModelForm):
     #         )
     #     return self.cleaned_data
 
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-        if len(username) > 150:
-            raise forms.ValidationError(
-                _("Username is too long (maximum 150 characters).")
-            )
-        if not all(c.isalnum() or c in "@.+-_" for c in username):
-            raise forms.ValidationError(
-                _(
-                    "Please enter a valid username. "
-                    "It can only contain letters, numbers and @/./+/-/_ signs."
-                )
-            )
+    # def clean_username(self):
+    #     username = self.cleaned_data["username"]
+    #     if len(username) > 150:
+    #         raise forms.ValidationError(
+    #             _("Username is too long (maximum 150 characters).")
+    #         )
+    #     if not all(c.isalnum() or c in "@.+-_" for c in username):
+    #         raise forms.ValidationError(
+    #             _(
+    #                 "Please enter a valid username. "
+    #                 "It can only contain letters, numbers and @/./+/-/_ signs."
+    #             )
+    #         )
 
-        User = get_user_model()
-        existing_user = User.objects.filter(username=username).first()
+    #     User = get_user_model()
+    #     existing_user = User.objects.filter(username=username).first()
 
-        if existing_user:
-            if (
-                not hasattr(self, "instance")
-                or self.instance.pk != existing_user.pk
-            ):
-                raise forms.ValidationError(
-                    _("A user with this name already exists.")
-                )
-        return username
+    #     if existing_user:
+    #         if (
+    #             not hasattr(self, "instance")
+    #             or self.instance.pk != existing_user.pk
+    #         ):
+    #             raise forms.ValidationError(
+    #                 _("A user with this name already exists.")
+    #             )
+    #     return username

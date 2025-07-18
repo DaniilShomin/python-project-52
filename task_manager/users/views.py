@@ -39,7 +39,7 @@ class CreateUserView(View):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data["password"])
+            user.set_password(form.cleaned_data["password1"])
             user.save()
             messages.success(request, _("User registered successfully"))
             return redirect("login")
@@ -64,7 +64,7 @@ class UpdateUserView(BaseUserView):
         form = CreateUserForm(request.POST, instance=user)
         if form.is_valid():
             updated_user = form.save(commit=False)
-            updated_user.set_password(form.cleaned_data["password"])
+            updated_user.set_password(form.cleaned_data["password1"])
             updated_user.save()
             messages.success(request, _("User successfully changed."))
             return redirect("users:index")
