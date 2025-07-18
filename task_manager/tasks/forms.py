@@ -51,7 +51,7 @@ class CreateTaskForm(forms.ModelForm):
         queryset=Label.objects.all(),
         required=False,
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
-        label=_("Label"),
+        label=_("Labels"),
     )
 
     class Meta:
