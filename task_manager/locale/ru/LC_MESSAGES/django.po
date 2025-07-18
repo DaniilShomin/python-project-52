@@ -285,8 +285,8 @@ msgid "Date of creation"
 msgstr "Дата создания"
 
 #: task_manager/templates/tasks/update.html:8
-msgid "Changing task"
-msgstr "Изменение задачу"
+msgid "Changing a task"
+msgstr "Изменение задачи"
 
 #: task_manager/templates/users/create.html:12
 msgid "Registr"
