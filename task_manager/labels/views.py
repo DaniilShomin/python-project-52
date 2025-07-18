@@ -84,7 +84,7 @@ class DeleteLabelsView(BaseLabelsView):
 
     def post(self, request, pk):
         label = get_object_or_404(Label, pk=pk)
-        if Task.objects.filter(label=label).exists():
+        if Task.objects.filter(labels=label).exists():
             messages.error(
                 request, _("Cannot delete label because it is in use")
             )
