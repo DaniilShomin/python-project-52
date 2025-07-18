@@ -27,7 +27,7 @@ class TaskFilter(df.FilterSet):
         required=False,
     )
 
-    label = df.ModelChoiceFilter(
+    labels = df.ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_("Label"),
         widget=forms.Select(attrs={"class": "form-control"}),
