@@ -48,6 +48,7 @@ class CreateTaskView(BaseTaskView):
             task.author = request.user
             task.save()
             form.save_m2m()
+            messages.error(request, _("Task successfully created"))
             return redirect("tasks:index")
         return self._render_form(request, form)
 
