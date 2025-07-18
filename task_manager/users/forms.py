@@ -52,7 +52,8 @@ class CreateUserForm(UserCreationForm):
             self.add_error(
                 "password2",
                 _(
-                    "The password you entered is too short. It must contain at least 3 characters."
+                    "The password you entered is too short. "
+                    "It must contain at least 3 characters."
                 ),
             )
         return self.cleaned_data
