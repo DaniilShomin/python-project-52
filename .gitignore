@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 .python_version
 .env
+old_task_manager/
