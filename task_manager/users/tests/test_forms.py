@@ -43,13 +43,13 @@ class UserTestForms(UserTestCase):
 
     def test_password_mismatch(self):
         data = self.valid_data.copy()
-        data["confirm_password"] = "wrongpass"
+        data["password2"] = "wrongpass"
         form = CreateUserForm(data=data)
         self.assertFalse(form.is_valid())
 
     def test_short_password(self):
         data = self.valid_data.copy()
-        data["password"] = "ab"
-        data["confirm_password"] = "ab"
+        data["password1"] = "ab"
+        data["password2"] = "ab"
         form = CreateUserForm(data=data)
         self.assertFalse(form.is_valid())

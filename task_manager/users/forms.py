@@ -41,14 +41,14 @@ class CreateUserForm(UserCreationForm):
 
     def clean(self):
         password = self.cleaned_data.get("password1")
+        confirm_password = self.cleaned_data.get("password2")
         if not password:
             self.add_error("password1", _("You must enter a password."))
-        confirm_password = self.cleaned_data.get("password2")
-        if password != confirm_password:
+        elif password != confirm_password:
             self.add_error(
                 "password2", _("The passwords entered do not match.")
             )
-        if len(password) < 3:
+        elif len(password) < 3:
             self.add_error(
                 "password2",
                 _(

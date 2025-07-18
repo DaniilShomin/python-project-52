@@ -28,9 +28,9 @@ class UserTestCase(TestCase):
             "password": "Arya123",
         }
 
-        self.user1 = User.objects.create(**user1)
-        self.user2 = User.objects.create(**user2)
-        self.user3 = User.objects.create(**user3)
+        self.user1 = User.objects.create_user(**user1)
+        self.user2 = User.objects.create_user(**user2)
+        self.user3 = User.objects.create_user(**user3)
 
         status = {
             "name": "inwork",
@@ -57,6 +57,6 @@ class UserTestCase(TestCase):
             "first_name": "Tom",
             "last_name": "Brady",
             "username": "TomBrady",
-            "password": "Tom123",
-            "confirm_password": "Tom123",
+            "password1": "Tom123",
+            "password2": "Tom123",
         }
