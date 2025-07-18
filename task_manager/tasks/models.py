@@ -18,5 +18,5 @@ class Task(models.Model):
     executor = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="executor", null=True
     )
-    label = models.ManyToManyField(Label, related_name="label", blank=True)
+    labels = models.ManyToManyField(Label, related_name="labels", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

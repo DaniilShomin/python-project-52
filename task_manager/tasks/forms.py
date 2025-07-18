@@ -47,13 +47,6 @@ class SearchTaskForm(forms.ModelForm):
 
 
 class CreateTaskForm(forms.ModelForm):
-    labels = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.all(),
-        required=False,
-        widget=forms.SelectMultiple(attrs={"class": "form-control"}),
-        label=_("Labels"),
-    )
-
     class Meta:
         model = Task
         fields = [
@@ -68,9 +61,11 @@ class CreateTaskForm(forms.ModelForm):
             "description": _("Description"),
             "status": _("Status"),
             "executor": _("Executor"),
+            "labels": _("Labels"),
         }
         widgets = {
             "status": forms.Select(attrs={"class": "form-control"}),
+            "labels": forms.SelectMultiple(attrs={"class": "form-control"}),
         }
         empty_label = {
             "status": "---------",
