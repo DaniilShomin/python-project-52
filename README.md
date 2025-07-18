@@ -1,7 +1,7 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/DaniilShomin/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/DaniilShomin/python-project-52/actions)
-
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DaniilShomin_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DaniilShomin_python-project-52)
+[![Python CI](https://github.com/DaniilShomin/python-project-52/actions/workflows/pyci.yml/badge.svg)](https://github.com/DaniilShomin/python-project-52/actions/workflows/pyci.yml)
 
 # Task manager  
 Example of work: https://python-project-52-zib0.onrender.com
