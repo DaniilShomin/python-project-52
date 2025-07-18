@@ -5,4 +5,7 @@ __pycache__/
 *.pyc
 .python_version
 .env
-old_task_manager/
+*.sqlite3
+staticfiles/
+.coverage
+coverage.xml
