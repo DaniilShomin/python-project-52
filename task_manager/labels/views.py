@@ -36,6 +36,7 @@ class CreateLabelsView(BaseLabelsView):
         form = CreateLabelForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, _("The label was successfully created."))
             return redirect("labels:index")
         return self._render_form(request, form)
 
