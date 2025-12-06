@@ -44,9 +44,9 @@ class TaskFilter(df.FilterSet):
 
     class Meta:
         model = Task
-        fields = []
+        fields: list = []
 
-    def filter_self_tasks(self, queryset, name, value):
+    def filter_self_tasks(self, queryset, value):
         if value:
             return queryset.filter(author=self.request.user)
         return queryset

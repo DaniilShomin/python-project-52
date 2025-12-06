@@ -28,3 +28,19 @@ class UserMixin(LoginMixin, UserPassesTestMixin):
             _("You do not have permission to change another user."),
         )
         return redirect(self.success_url)
+
+
+class TaskMixin(LoginMixin, UserPassesTestMixin):
+    def test_func(self):
+        """Проверяем права доступа - UserPassesTestMixin"""
+        task = self.get_object()
+        return (
+            self.request.user.is_superuser or self.request.user == task.author
+        )
+
+    def handle_no_permission(self):
+        """Если нет прав - показываем ошибку и редирект"""
+        messages.error(
+            self.request, _("A task can only be deleted by its author.")
+        )
+        return redirect(self.success_url)

@@ -46,7 +46,7 @@ class SearchTaskForm(forms.ModelForm):
         self.fields["executor"].required = False
 
 
-class CreateTaskForm(forms.ModelForm):
+class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [
