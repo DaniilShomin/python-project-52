@@ -35,6 +35,7 @@ class URLTests(TestCase):
     def test_logout_view(self):
         # Проверка поведения при выходе (ожидается редирект)
         response = self.client.get(reverse_lazy("logout"))
+        print(response)
         self.assertEqual(response.status_code, 302)
 
 

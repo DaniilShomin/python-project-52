@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -26,7 +26,16 @@ class CustomLoginView(LoginView):
 
 
 class CustomLogoutView(View):
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """GET запросы перенаправляем на главную"""
+        return redirect("index")
+
     def post(self, request: HttpRequest) -> HttpResponse:
-        logout(request)
-        messages.info(request, _("You are logout"))
+        """Выход через POST для безопасности"""
+        if request.user.is_authenticated:
+            logout(request)
+            messages.info(request, _("You are logout"))
+        else:
+            messages.warning(request, _("You are not logged in"))
+
         return redirect("index")
