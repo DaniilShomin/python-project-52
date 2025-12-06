@@ -16,13 +16,10 @@ class IndexView(View):
 class CustomLoginView(LoginView):
     template_name = "login.html"
 
-    def post(self, request: HttpRequest) -> HttpResponse:
-        form = self.get_form()
-        if form.is_valid():
-            messages.success(request, _("You are login"))
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+    def form_valid(self, form) -> HttpResponse:
+        response = super().form_valid(form)
+        messages.success(self.request, _("You are login"))
+        return response
 
     def get_success_url(self):
         return reverse_lazy("index")
