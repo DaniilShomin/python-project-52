@@ -31,6 +31,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
+# LOGIN_URL = "users:logi"
+
 ALLOWED_HOSTS = [
     "webserver",
     "python-project-52-zib0.onrender.com",
