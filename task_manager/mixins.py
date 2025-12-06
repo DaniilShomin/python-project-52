@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 
-class CustomLoginMixin(LoginRequiredMixin, UserPassesTestMixin):
-    login_url = "/login/"
+class LoginMixin(LoginRequiredMixin):
+    login_url = reverse_lazy("login")
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -13,9 +14,11 @@ class CustomLoginMixin(LoginRequiredMixin, UserPassesTestMixin):
             return redirect(self.login_url)
         return super().dispatch(request, *args, **kwargs)
 
+
+class UserMixin(LoginMixin, UserPassesTestMixin):
     def test_func(self):
         """Проверяем права доступа - UserPassesTestMixin"""
-        user = self.get_object()  # UpdateView сам получает объект
+        user = self.get_object()
         return self.request.user.is_superuser or self.request.user.id == user.id
 
     def handle_no_permission(self):

@@ -11,7 +11,7 @@ from django.views.generic.edit import (
     UpdateView,
 )
 
-from task_manager.mixins import CustomLoginMixin
+from task_manager.mixins import UserMixin
 from task_manager.tasks.models import Task
 from task_manager.users.forms import UserForm
 from task_manager.users.models import User
@@ -48,7 +48,7 @@ class CreateUserView(CreateView):
         return context
 
 
-class UpdateUserView(CustomLoginMixin, UpdateView):
+class UpdateUserView(UserMixin, UpdateView):
     model = User
     form_class = UserForm
     template_name = "users/update.html"
@@ -72,7 +72,7 @@ class UpdateUserView(CustomLoginMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class DeleteUserView(CustomLoginMixin, DeleteView):
+class DeleteUserView(UserMixin, DeleteView):
     model = User
     template_name = "users/delete.html"
     success_url = reverse_lazy("users:index")
@@ -104,7 +104,7 @@ class DeleteUserView(CustomLoginMixin, DeleteView):
             messages.success(request, _("User successfully deleted"))
             return response
         except ProtectedError:
-            # Защита от каскадного удаления (если настроены on_delete=PROTECT)
+            # Защита от каскадного удаления
             messages.error(
                 request,
                 _(
