@@ -1,8 +1,7 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm
 from django.test import TestCase
 from django.urls import reverse_lazy
-
-from task_manager.forms import LoginForm
 
 User = get_user_model()
 
@@ -11,12 +10,12 @@ class LoginFormTest(TestCase):
     def test_valid_login(self):
         User.objects.create_user(username="testuser", password="testpassword")
         form_data = {"username": "testuser", "password": "testpassword"}
-        form = LoginForm(data=form_data)
+        form = AuthenticationForm(data=form_data)
         self.assertTrue(form.is_valid())
 
     def test_login_form_empty_data(self):
         form_data = {}
-        form = LoginForm(data=form_data)
+        form = AuthenticationForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("username", form.errors)
         self.assertIn("password", form.errors)
