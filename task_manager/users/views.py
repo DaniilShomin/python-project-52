@@ -77,39 +77,12 @@ class DeleteUserView(UserMixin, DeleteView):
     template_name = "users/delete.html"
     success_url = reverse_lazy("users:index")
 
-    def get_context_data(self, **kwargs):
-        """Добавление информации о связанных задачах в контекст"""
-        context = super().get_context_data(**kwargs)
-        user = self.get_object()
-
-        context["has_related_tasks"] = Task.objects.filter(
-            executor=user
-        ).exists()
-        context["task_count"] = Task.objects.filter(executor=user).count()
-
-        return context
-
-    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        """Обработка удаления с проверкой связей"""
-        user = self.get_object()
-
-        if Task.objects.filter(executor=user).exists():
+    def form_valid(self, form):
+        if Task.objects.filter(executor=self.object).exists():
             messages.error(
-                request, _("Cannot delete user because it is in use")
+                self.request, _("Cannot delete user because it is in use")
             )
             return redirect("users:index")
-
-        try:
-            response = super().delete(request, *args, **kwargs)
-            messages.success(request, _("User successfully deleted"))
-            return response
-        except ProtectedError:
-            # Защита от каскадного удаления
-            messages.error(
-                request,
-                _(
-                    "Cannot delete user "
-                    "because it is referenced by other records."
-                ),
-            )
-            return redirect("users:index")
+        respose = super().form_valid(form)
+        messages.success(self.request, _("User successfully deleted"))
+        return respose
