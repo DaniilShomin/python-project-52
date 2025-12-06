@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.db.models import ProtectedError
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -41,11 +40,6 @@ class CreateUserView(CreateView):
         messages.success(self.request, _("User registered successfully"))
 
         return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = _("Registration")
-        return context
 
 
 class UpdateUserView(UserMixin, UpdateView):
