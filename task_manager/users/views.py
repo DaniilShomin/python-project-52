@@ -1,28 +1,24 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models import ProtectedError
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.views import View
+from django.views.generic.edit import (
+    CreateView,
+    DeleteView,
+    UpdateView,
+)
 
+from task_manager.mixins import CustomLoginMixin
 from task_manager.tasks.models import Task
-from task_manager.users.forms import CreateUserForm
+from task_manager.users.forms import UserForm
 from task_manager.users.models import User
 
 
-class BaseUserView(LoginRequiredMixin, View):
-    login_url = "/login/"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            messages.error(
-                request, _("You are not logged in! Please sign in.")
-            )
-        return super().dispatch(request, *args, **kwargs)
-
-
 class IndexUserView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         users = User.objects.all().order_by("id")
         return render(
             request,
@@ -31,91 +27,89 @@ class IndexUserView(View):
         )
 
 
-class CreateUserView(View):
-    def get(self, request):
-        return self._render_form(request, CreateUserForm())
+class CreateUserView(CreateView):
+    model = User
+    form_class = UserForm
+    template_name = "users/create.html"
+    success_url = reverse_lazy("login")
 
-    def post(self, request):
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data["password1"])
+        user.save()
+
+        messages.success(self.request, _("User registered successfully"))
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = _("Registration")
+        return context
+
+
+class UpdateUserView(CustomLoginMixin, UpdateView):
+    model = User
+    form_class = UserForm
+    template_name = "users/update.html"
+    success_url = reverse_lazy("users:index")
+
+    def form_valid(self, form):
+        """Обработка ВАЛИДНОЙ формы"""
+        if "password1" in form.cleaned_data and form.cleaned_data["password1"]:
             user = form.save(commit=False)
             user.set_password(form.cleaned_data["password1"])
             user.save()
-            messages.success(request, _("User registered successfully"))
-            return redirect("login")
-        return self._render_form(request, form)
+        else:
+            form.save()
 
-    def _render_form(self, request, form):
-        return render(request, "users/create.html", context={"form": form})
+        messages.success(self.request, _("User successfully changed."))
+        return super().form_valid(form)
 
-
-class UpdateUserView(BaseUserView):
-    def get(self, request, pk):
-        user = self._get_user(pk)
-        if isinstance(user, HttpResponseRedirect):
-            return user
-        form = CreateUserForm(instance=user)
-        return self._render_form(request, form, user)
-
-    def post(self, request, pk):
-        user = self._get_user(pk)
-        if isinstance(user, HttpResponseRedirect):
-            return user
-        form = CreateUserForm(request.POST, instance=user)
-        if form.is_valid():
-            updated_user = form.save(commit=False)
-            updated_user.set_password(form.cleaned_data["password1"])
-            updated_user.save()
-            messages.success(request, _("User successfully changed."))
-            return redirect("users:index")
-        return self._render_form(request, form, user)
-
-    def _get_user(self, user_id):
-        user = get_object_or_404(User, id=user_id)
-        auth_user_id = self.request.user.id
-
-        if auth_user_id != int(user_id) and not self.request.user.is_superuser:
-            messages.error(
-                self.request,
-                _("You do not have permission to change another user."),
-            )
-            return redirect("users:index")
-        return user
-
-    def _render_form(self, request, form, user):
-        return render(
-            request, "users/update.html", context={"form": form, "user": user}
-        )
+    def form_invalid(self, form):
+        """Обработка НЕВАЛИДНОЙ формы"""
+        messages.error(self.request, _("Please correct the errors below."))
+        return super().form_invalid(form)
 
 
-class DeleteUserView(BaseUserView):
-    def get(self, request, pk):
-        user = self._get_user(pk)
-        if isinstance(user, HttpResponseRedirect):
-            return user
-        return render(request, "users/delete.html", context={"user": user})
+class DeleteUserView(CustomLoginMixin, DeleteView):
+    model = User
+    template_name = "users/delete.html"
+    success_url = reverse_lazy("users:index")
 
-    def post(self, request, pk):
-        user = self._get_user(pk)
-        if isinstance(user, HttpResponseRedirect):
-            return user
+    def get_context_data(self, **kwargs):
+        """Добавление информации о связанных задачах в контекст"""
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+
+        context["has_related_tasks"] = Task.objects.filter(
+            executor=user
+        ).exists()
+        context["task_count"] = Task.objects.filter(executor=user).count()
+
+        return context
+
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        """Обработка удаления с проверкой связей"""
+        user = self.get_object()
+
         if Task.objects.filter(executor=user).exists():
             messages.error(
                 request, _("Cannot delete user because it is in use")
             )
             return redirect("users:index")
-        user.delete()
-        messages.success(request, _("User successfully deleted"))
-        return redirect("users:index")
 
-    def _get_user(self, user_id):
-        user = get_object_or_404(User, id=user_id)
-        auth_user_id = self.request.user.id
-
-        if auth_user_id != int(user_id) and not self.request.user.is_superuser:
+        try:
+            response = super().delete(request, *args, **kwargs)
+            messages.success(request, _("User successfully deleted"))
+            return response
+        except ProtectedError:
+            # Защита от каскадного удаления (если настроены on_delete=PROTECT)
             messages.error(
-                self.request,
-                _("You do not have permission to change another user."),
+                request,
+                _(
+                    "Cannot delete user "
+                    "because it is referenced by other records."
+                ),
             )
             return redirect("users:index")
-        return user
