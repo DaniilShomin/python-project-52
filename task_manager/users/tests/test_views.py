@@ -50,7 +50,7 @@ class UsersTestViews(UserTestCase):
         )
         self.assertRedirects(response, reverse_lazy("users:index"))
         user = User.objects.get(id=self.user1.pk)
-        self.assertEqual(user.first_name, self.valid_data["first_name"]),
+        self.assertEqual(user.first_name, self.valid_data["first_name"])
 
     def test_update_user_permission_denied(self):
         self.client.force_login(self.user1)
